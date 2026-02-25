@@ -6,16 +6,95 @@
 <title>VALCIERI</title>
 
 <style>
-body { margin:0; font-family:Arial; background:#f4f4f4; text-align:center; }
-header { background:white; padding:20px; }
-.logo { max-width:350px; width:90%; }
-nav { background:black; padding:15px; display:flex; justify-content:center; gap:20px; color:gold; }
-nav a { color:gold; text-decoration:none; font-weight:bold; }
-.products { display:flex; flex-wrap:wrap; justify-content:center; gap:25px; padding:40px; }
-.product { background:white; width:200px; padding:20px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
-button { background:black; color:gold; border:none; padding:10px; margin-top:10px; cursor:pointer; width:100%; }
-button:hover { opacity:0.8; }
-footer { background:black; color:gold; padding:20px; margin-top:40px; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  text-align: center;
+}
+
+header {
+  background: white;
+  padding: 20px;
+}
+
+.logo {
+  max-width: 350px;
+  width: 90%;
+}
+
+nav {
+  background: black;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  color: gold;
+}
+
+nav a {
+  color: gold;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.section-title {
+  margin-top: 40px;
+  font-size: 26px;
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 30px;
+}
+
+.category {
+  background: white;
+  width: 150px;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  padding: 40px;
+}
+
+.product {
+  background: white;
+  width: 200px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+button {
+  background: black;
+  color: gold;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+footer {
+  background: black;
+  color: gold;
+  padding: 20px;
+  margin-top: 40px;
+}
 </style>
 </head>
 
@@ -27,9 +106,23 @@ footer { background:black; color:gold; padding:20px; margin-top:40px; }
 
 <nav>
   🛒 Cart (<span id="cartCount">0</span>)
+  <button onclick="goToCheckout()" style="width:150px;">Checkout</button>
 </nav>
 
-<h2>Products</h2>
+<h2 class="section-title">Kategoriat</h2>
+
+<div class="categories">
+  <div class="category">Kengät</div>
+  <div class="category">Vyöt</div>
+  <div class="category">Lasit</div>
+  <div class="category">Colleget</div>
+  <div class="category">Hupparit</div>
+  <div class="category">Lökärit</div>
+  <div class="category">Tracksuitit</div>
+  <div class="category">T-paidat</div>
+</div>
+
+<h2 class="section-title">Featured Products</h2>
 
 <div class="products">
   <div class="product">
@@ -50,9 +143,6 @@ footer { background:black; color:gold; padding:20px; margin-top:40px; }
     <button onclick="addToCart('Tracksuit',149)">Add to Cart</button>
   </div>
 </div>
-
-<br>
-<button onclick="goToCheckout()" style="width:200px;">Go To Checkout</button>
 
 <footer>
   © 2026 VALCIERI
