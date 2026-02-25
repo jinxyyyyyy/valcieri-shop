@@ -33,101 +33,42 @@ let shippingCost = detectShipping();
 <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&intent=capture"></script>
 
 <style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    text-align: center;
-  }
-  header {
-    padding: 60px 20px 30px 20px;
-    background: #eee;
-  }
-  .logo {
-    width: 100%;
-    max-width: 520px;
-    height: auto;
-    display: block;
-    margin: 0 auto 20px auto;
-    mix-blend-mode: multiply;
-    filter: brightness(0.85);
-  }
-  nav {
-    background: black;
-    color: gold;
-    padding: 15px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  .categories,
-  .products {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    padding: 30px;
-  }
-  .category,
-  .product {
-    background: white;
-    width: 180px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-  }
-  button {
-    background: black;
-    color: gold;
-    border: none;
-    padding: 10px;
-    margin-top: 10px;
-    cursor: pointer;
-    width: 100%;
-  }
-  footer {
-    background: black;
-    color: gold;
-    padding: 30px;
-    margin-top: 40px;
-  }
-  .lang-btn {
-    background: gold;
-    color: black;
-    padding: 5px 10px;
-    cursor: pointer;
-    border: none;
-  }
+  body {margin:0;font-family:Arial,sans-serif;background:#f4f4f4;text-align:center;}
+  header {padding:60px 20px 30px 20px;background:#eee;}
+  .logo {width:100%;max-width:520px;height:auto;display:block;margin:0 auto 20px auto;mix-blend-mode:multiply;filter:brightness(0.85);}
+  nav {background:black;color:gold;padding:15px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
+  .categories, .products {display:flex;flex-wrap:wrap;justify-content:center;gap:20px;padding:30px;}
+  .category, .product {background:white;width:180px;padding:20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1);cursor:pointer;}
+  button {background:black;color:gold;border:none;padding:10px;margin-top:10px;cursor:pointer;width:100%;}
+  footer {background:black;color:gold;padding:30px;margin-top:40px;}
+  .lang-btn {background:gold;color:black;padding:5px 10px;cursor:pointer;border:none;}
 </style>
 </head>
 
 <body>
 <header>
-  <img src="logo.jpg" alt="VALCIERI logo" class="logo" />
+  <img src="logo.png" alt="VALCIERI logo" class="logo" />
   <p id="worldwideText">Worldwide Shipping 🌍</p>
 </header>
 
 <nav>
-  🛒 <span id="totalLabel">Total:</span> <span id="currencySymbol"></span
-  ><span id="cartTotal">0.00</span>
-  <button class="lang-btn" onclick="setLanguage('fi')">FI</button>
-  <button class="lang-btn" onclick="setLanguage('en')">EN</button>
+  🛒 <span id="totalLabel">Total:</span> <span id="currencySymbol"></span><span id="cartTotal">0.00</span>
+  <button id="btn-fi" class="lang-btn">FI</button>
+  <button id="btn-en" class="lang-btn">EN</button>
 </nav>
 
 <h2 id="categoriesTitle">Categories</h2>
 
 <div class="categories">
-  <div class="category" onclick="filterCategory('shoes')" data-key="shoes">Kenkii</div>
-  <div class="category" onclick="filterCategory('belts')" data-key="belts">Vyöt</div>
-  <div class="category" onclick="filterCategory('glasses')" data-key="glasses">Lasit</div>
-  <div class="category" onclick="filterCategory('sweatshirts')" data-key="sweatshirts">Colleget</div>
-  <div class="category" onclick="filterCategory('hoodies')" data-key="hoodies">Hupparit</div>
-  <div class="category" onclick="filterCategory('joggers')" data-key="joggers">Lökärit</div>
-  <div class="category" onclick="filterCategory('tracksuits')" data-key="tracksuits">Tracksuitit</div>
-  <div class="category" onclick="filterCategory('tshirts')" data-key="tshirts">T-paidat</div>
-  <div class="category" onclick="filterCategory('all')" data-key="all">All</div>
+  <div class="category" data-key="shoes" onclick="filterCategory('shoes')">Kenkii</div>
+  <div class="category" data-key="belts" onclick="filterCategory('belts')">Vyöt</div>
+  <div class="category" data-key="glasses" onclick="filterCategory('glasses')">Lasit</div>
+  <div class="category" data-key="sweatshirts" onclick="filterCategory('sweatshirts')">Colleget</div>
+  <div class="category" data-key="hoodies" onclick="filterCategory('hoodies')">Hupparit</div>
+  <div class="category" data-key="joggers" onclick="filterCategory('joggers')">Lökärit</div>
+  <div class="category" data-key="tracksuits" onclick="filterCategory('tracksuits')">Tracksuitit</div>
+  <div class="category" data-key="tshirts" onclick="filterCategory('tshirts')">T-paidat</div>
+  <div class="category" data-key="all" onclick="filterCategory('all')">All</div>
 </div>
 
 <h2 id="productsTitle">Featured Products</h2>
@@ -137,37 +78,30 @@ let shippingCost = detectShipping();
     <h3>VALCIERI T-Shirt</h3>
     <button onclick="addToCart(29)">Add</button>
   </div>
-
   <div class="product" data-category="hoodies">
     <h3>VALCIERI Hoodie</h3>
     <button onclick="addToCart(79)">Add</button>
   </div>
-
   <div class="product" data-category="tracksuits">
     <h3>VALCIERI Tracksuit</h3>
     <button onclick="addToCart(149)">Add</button>
   </div>
-
   <div class="product" data-category="belts">
     <h3>VALCIERI Belt</h3>
     <button onclick="addToCart(35)">Add</button>
   </div>
-
   <div class="product" data-category="glasses">
     <h3>VALCIERI Glasses</h3>
     <button onclick="addToCart(50)">Add</button>
   </div>
-
   <div class="product" data-category="sweatshirts">
     <h3>VALCIERI Sweatshirt</h3>
     <button onclick="addToCart(60)">Add</button>
   </div>
-
   <div class="product" data-category="joggers">
     <h3>VALCIERI Joggers</h3>
     <button onclick="addToCart(45)">Add</button>
   </div>
-
   <div class="product" data-category="shoes">
     <h3>VALCIERI Shoes</h3>
     <button onclick="addToCart(99)">Add</button>
@@ -189,132 +123,54 @@ let shippingCost = detectShipping();
 </footer>
 
 <script>
-  /* ===== Currency Symbol ===== */
-  function getCurrencySymbol(cur) {
-    return { USD: "$", EUR: "€", GBP: "£", CAD: "$", AUD: "$" }[cur] || "$";
-  }
-
+  /* ===== Currency & Shipping ===== */
+  function getCurrencySymbol(cur) { return { USD:"$",EUR:"€",GBP:"£",CAD:"$",AUD:"$"}[cur]||"$"; }
   document.getElementById("currencySymbol").innerText = getCurrencySymbol(currency);
-  document.getElementById("shippingText").innerText =
-    "Shipping: " + getCurrencySymbol(currency) + shippingCost;
+  document.getElementById("shippingText").innerText = "Shipping: "+getCurrencySymbol(currency)+shippingCost;
 
   /* ===== Cart ===== */
   let cart = [];
-
-  function addToCart(price) {
-    cart.push(price);
-    updateTotal();
-  }
-
-  function updateTotal() {
-    let subtotal = cart.reduce((a, b) => a + b, 0);
-    let total = subtotal + (subtotal > 0 ? shippingCost : 0);
-    document.getElementById("cartTotal").innerText = total.toFixed(2);
-  }
+  function addToCart(price){ cart.push(price); updateTotal(); }
+  function updateTotal(){ let subtotal=cart.reduce((a,b)=>a+b,0); let total=subtotal+(subtotal>0?shippingCost:0); document.getElementById("cartTotal").innerText=total.toFixed(2); }
 
   /* ===== Category Filter ===== */
-  function filterCategory(key) {
-    const products = document.querySelectorAll(".product");
-    products.forEach((p) => {
-      if (key === "all" || p.dataset.category === key) {
-        p.style.display = "block";
-      } else {
-        p.style.display = "none";
-      }
-    });
+  function filterCategory(key){
+    document.querySelectorAll(".product").forEach(p=>{ p.style.display=(key==="all"||p.dataset.category===key)?"block":"none"; });
   }
 
-  /* ===== PayPal ===== */
+  /* ===== PayPal Checkout ===== */
   paypal.Buttons({
-    createOrder: function (data, actions) {
-      let subtotal = cart.reduce((a, b) => a + b, 0);
-      if (subtotal <= 0) {
-        alert("Cart empty");
-        return;
-      }
-      if (!document.getElementById("agreeTerms").checked) {
-        alert("Agree to Terms");
-        return;
-      }
-      let total = subtotal + shippingCost;
-      return actions.order.create({
-        purchase_units: [
-          {
-            amount: { currency_code: currency, value: total.toFixed(2) },
-          },
-        ],
-      });
+    createOrder:function(data,actions){
+      let subtotal=cart.reduce((a,b)=>a+b,0);
+      if(subtotal<=0){ alert("Cart empty"); return; }
+      if(!document.getElementById("agreeTerms").checked){ alert("Agree to Terms"); return; }
+      let total=subtotal+shippingCost;
+      return actions.order.create({ purchase_units:[{ amount:{ currency_code:currency,value:total.toFixed(2) } }] });
     },
-    onApprove: function (data, actions) {
-      return actions.order.capture().then(function (details) {
-        alert("Payment successful!");
-        cart = [];
-        updateTotal();
-      });
-    },
+    onApprove:function(data,actions){ return actions.order.capture().then(function(details){ alert("Payment successful!"); cart=[]; updateTotal(); }); }
   }).render("#paypal-button-container");
 
   /* ===== Language System ===== */
-  const translations = {
-    fi: {
-      categories: "Kategoriat",
-      products: "Suositut tuotteet",
-      total: "Yhteensä:",
-      agree: "Hyväksyn ehdot",
-      worldwide: "Toimitamme maailmanlaajuisesti 🌍",
-      add: "Lisää",
-      shoes: "Kenkii",
-      belts: "Vyöt",
-      glasses: "Lasit",
-      sweatshirts: "Colleget",
-      hoodies: "Hupparit",
-      joggers: "Lökärit",
-      tracksuits: "Tracksuitit",
-      tshirts: "T-paidat",
-      all: "Kaikki",
-    },
-    en: {
-      categories: "Categories",
-      products: "Featured Products",
-      total: "Total:",
-      agree: "I agree to Terms",
-      worldwide: "Worldwide Shipping 🌍",
-      add: "Add",
-      shoes: "Kenkii",
-      belts: "Belts",
-      glasses: "Glasses",
-      sweatshirts: "Sweatshirts",
-      hoodies: "Hoodies",
-      joggers: "Joggers",
-      tracksuits: "Tracksuits",
-      tshirts: "T-Shirts",
-      all: "All",
-    },
+  const translations={
+    fi:{categories:"Kategoriat",products:"Suositut tuotteet",total:"Yhteensä:",agree:"Hyväksyn ehdot",worldwide:"Toimitamme maailmanlaajuisesti 🌍",add:"Lisää",shoes:"Kenkii",belts:"Vyöt",glasses:"Lasit",sweatshirts:"Colleget",hoodies:"Hupparit",joggers:"Lökärit",tracksuits:"Tracksuitit",tshirts:"T-paidat",all:"Kaikki"},
+    en:{categories:"Categories",products:"Featured Products",total:"Total:",agree:"I agree to Terms",worldwide:"Worldwide Shipping 🌍",add:"Add",shoes:"Kenkii",belts:"Belts",glasses:"Glasses",sweatshirts:"Sweatshirts",hoodies:"Hoodies",joggers:"Joggers",tracksuits:"Tracksuits",tshirts:"T-Shirts",all:"All"}
   };
 
-  function setLanguage(lang) {
-    document.getElementById("categoriesTitle").innerText =
-      translations[lang].categories;
-    document.getElementById("productsTitle").innerText =
-      translations[lang].products;
-    document.getElementById("totalLabel").innerText = translations[lang].total;
-    document.getElementById("agreeLabel").innerText = translations[lang].agree;
-    document.getElementById("worldwideText").innerText =
-      translations[lang].worldwide;
-
-    // Update category names dynamically:
-    document.querySelectorAll(".category").forEach((cat) => {
-      const key = cat.getAttribute("data-key");
-      cat.innerText = translations[lang][key];
-    });
-
-    document.querySelectorAll(".product button").forEach((btn) => {
-      btn.innerText = translations[lang].add;
-    });
+  function setLanguage(lang){
+    document.getElementById("categoriesTitle").innerText=translations[lang].categories;
+    document.getElementById("productsTitle").innerText=translations[lang].products;
+    document.getElementById("totalLabel").innerText=translations[lang].total;
+    document.getElementById("agreeLabel").innerText=translations[lang].agree;
+    document.getElementById("worldwideText").innerText=translations[lang].worldwide;
+    document.querySelectorAll(".category").forEach(cat=>{ const key=cat.dataset.key; cat.innerText=translations[lang][key]; });
+    document.querySelectorAll(".product button").forEach(btn=>{ btn.innerText=translations[lang].add; });
   }
 
-  // Set default language on page load:
-  window.onload = () => setLanguage("en");
+  window.onload = () => {
+    setLanguage("en"); // default
+    document.getElementById('btn-fi').addEventListener('click',()=>setLanguage('fi'));
+    document.getElementById('btn-en').addEventListener('click',()=>setLanguage('en'));
+  };
 </script>
 </body>
 </html>
