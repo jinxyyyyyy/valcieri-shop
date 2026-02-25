@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VALCIERI</title>
+
+<style>
+body { margin:0; font-family:Arial; background:#f4f4f4; text-align:center; }
+header { background:white; padding:20px; }
+.logo { max-width:350px; width:90%; }
+nav { background:black; padding:15px; display:flex; justify-content:center; gap:20px; color:gold; }
+nav a { color:gold; text-decoration:none; font-weight:bold; }
+.products { display:flex; flex-wrap:wrap; justify-content:center; gap:25px; padding:40px; }
+.product { background:white; width:200px; padding:20px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+button { background:black; color:gold; border:none; padding:10px; margin-top:10px; cursor:pointer; width:100%; }
+button:hover { opacity:0.8; }
+footer { background:black; color:gold; padding:20px; margin-top:40px; }
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="logo.jpg" class="logo">
+</header>
+
+<nav>
+  🛒 Cart (<span id="cartCount">0</span>)
+</nav>
+
+<h2>Products</h2>
+
+<div class="products">
+  <div class="product">
+    <h3>VALCIERI T-Paita</h3>
+    <p>€29</p>
+    <button onclick="addToCart('T-Paita',29)">Add to Cart</button>
+  </div>
+
+  <div class="product">
+    <h3>VALCIERI Huppari</h3>
+    <p>€79</p>
+    <button onclick="addToCart('Huppari',79)">Add to Cart</button>
+  </div>
+
+  <div class="product">
+    <h3>VALCIERI Tracksuit</h3>
+    <p>€149</p>
+    <button onclick="addToCart('Tracksuit',149)">Add to Cart</button>
+  </div>
+</div>
+
+<br>
+<button onclick="goToCheckout()" style="width:200px;">Go To Checkout</button>
+
+<footer>
+  © 2026 VALCIERI
+</footer>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("valcieriCart")) || [];
+
+function addToCart(name, price){
+  cart.push({name, price});
+  localStorage.setItem("valcieriCart", JSON.stringify(cart));
+  updateCart();
+}
+
+function updateCart(){
+  document.getElementById("cartCount").innerText = cart.length;
+}
+
+function goToCheckout(){
+  window.location.href = "checkout.html";
+}
+
+updateCart();
+</script>
+
+</body>
+</html>

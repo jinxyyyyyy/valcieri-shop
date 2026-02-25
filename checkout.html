@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout - VALCIERI</title>
+
+<style>
+body { margin:0; font-family:Arial; background:#f4f4f4; text-align:center; }
+header { background:white; padding:20px; }
+.logo { max-width:300px; width:90%; }
+.checkout-box {
+  background:white;
+  width:350px;
+  margin:40px auto;
+  padding:30px;
+  border-radius:10px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.1);
+  text-align:left;
+}
+input {
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+}
+button {
+  width:100%;
+  padding:12px;
+  background:black;
+  color:gold;
+  border:none;
+  cursor:pointer;
+}
+button:hover { opacity:0.8; }
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="logo.jpg" class="logo">
+</header>
+
+<div class="checkout-box">
+  <h2>Checkout</h2>
+
+  <div id="orderSummary"></div>
+  <h3>Total: €<span id="total"></span></h3>
+
+  <h3>Shipping Info</h3>
+  <input type="text" placeholder="Full Name">
+  <input type="text" placeholder="Address">
+  <input type="text" placeholder="City">
+  <input type="text" placeholder="Postal Code">
+
+  <button onclick="completeOrder()">Complete Order</button>
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("valcieriCart")) || [];
+let total = 0;
+let summaryHTML = "";
+
+cart.forEach(item => {
+  total += item.price;
+  summaryHTML += `<p>${item.name} - €${item.price}</p>`;
+});
+
+document.getElementById("orderSummary").innerHTML = summaryHTML;
+document.getElementById("total").innerText = total;
+
+function completeOrder(){
+  alert("Order placed successfully! (Demo)");
+  localStorage.removeItem("valcieriCart");
+  window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>
