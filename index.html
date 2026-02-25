@@ -6,92 +6,193 @@
 <title>VALCIERI</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#111;color:#fff}
-header{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;background:#000;position:sticky;top:0;z-index:1000}
-.logo{font-size:22px;font-weight:bold}
-nav{display:flex;gap:10px;flex-wrap:wrap}
-button{cursor:pointer}
-.primary{background:#fff;color:#000;border:none;padding:8px 12px}
-.secondary{background:#333;color:#fff;border:1px solid #555;padding:8px 12px}
-.hidden{display:none}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;padding:20px}
-.product{background:#1c1c1c;padding:15px;border-radius:8px;text-align:center}
-input,select{padding:6px;margin-top:5px}
-.cart{padding:20px;background:#000}
-.page{padding:20px}
-.mobile-toggle{display:none}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#111;
+  color:#fff;
+}
+
+/* HEADER */
+header{
+  background:#000;
+  padding:20px 0;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  text-align:center;
+  border-bottom:1px solid #222;
+}
+
+.logo-img{
+  height:65px;
+  width:auto;
+  object-fit:contain;
+}
+
+.top-bar{
+  position:absolute;
+  right:20px;
+  top:20px;
+}
+
+.top-bar button{
+  margin-left:8px;
+}
+
+/* NAVIGATION */
+nav{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  padding:15px 0;
+  background:#000;
+  flex-wrap:wrap;
+  border-bottom:1px solid #222;
+}
+
+button{
+  cursor:pointer;
+}
+
+.primary{
+  background:#fff;
+  color:#000;
+  border:none;
+  padding:8px 12px;
+  font-weight:bold;
+}
+
+.secondary{
+  background:#222;
+  color:#fff;
+  border:1px solid #444;
+  padding:8px 12px;
+}
+
+.hidden{
+  display:none;
+}
+
+/* PRODUCTS */
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:25px;
+  padding:30px;
+}
+
+.product{
+  background:#1a1a1a;
+  padding:20px;
+  border-radius:10px;
+  text-align:center;
+  transition:0.3s;
+}
+
+.product:hover{
+  transform:translateY(-5px);
+  background:#222;
+}
+
+input, select{
+  padding:6px;
+  margin-top:8px;
+}
+
+.controls{
+  grid-column:1/-1;
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+/* CART */
+.cart{
+  padding:20px 30px;
+  background:#000;
+  border-top:1px solid #222;
+}
+
+.page{
+  padding:30px;
+}
+
+/* MOBILE */
 @media(max-width:768px){
-nav{display:none;flex-direction:column;background:#000;position:absolute;top:60px;left:0;width:100%;padding:15px}
-nav.show{display:flex}
-.mobile-toggle{display:block;background:#fff;color:#000;border:none;padding:6px 10px}
+  .logo-img{
+    height:45px;
+  }
+  nav{
+    gap:8px;
+  }
 }
 </style>
 </head>
 <body>
 
 <header>
-<div class="logo">VALCIERI</div>
+  <img src="logo.jpg" alt="VALCIERI Logo" class="logo-img">
 
-<button class="mobile-toggle" onclick="toggleMenu()">☰</button>
+  <div class="top-bar">
+    <button onclick="setLanguage('fi')" class="secondary">FI</button>
+    <button onclick="setLanguage('en')" class="secondary">EN</button>
+    <button onclick="checkAdminAccess()" class="secondary">Admin</button>
+  </div>
+</header>
 
 <nav id="navLinks"></nav>
-
-<div>
-<button onclick="setLanguage('fi')" class="secondary">FI</button>
-<button onclick="setLanguage('en')" class="secondary">EN</button>
-<button onclick="checkAdminAccess()" class="secondary">Admin</button>
-</div>
-</header>
 
 <main>
 
 <div id="storePage" class="page">
-<div class="products" id="productsContainer"></div>
+  <div class="products" id="productsContainer"></div>
 </div>
 
 <div id="checkoutPage" class="page hidden">
-<h2>Checkout</h2>
-<div id="checkoutItems"></div>
-<h3 id="checkoutTotal"></h3>
-<button class="primary" onclick="placeOrder()">Place Order</button>
+  <h2>Checkout</h2>
+  <div id="checkoutItems"></div>
+  <h3 id="checkoutTotal"></h3>
+  <button class="primary" onclick="placeOrder()">Place Order</button>
 </div>
 
 <div id="confirmationPage" class="page hidden">
-<h2>Order Confirmed ✅</h2>
-<p>Thank you for shopping with VALCIERI.</p>
-<button class="primary" onclick="showPage('storePage')">Back to Store</button>
+  <h2>Order Confirmed ✅</h2>
+  <p>Thank you for shopping with VALCIERI.</p>
+  <button class="primary" onclick="showPage('storePage')">Back to Store</button>
 </div>
 
 <div id="loginPage" class="page hidden">
-<h2>Admin Login</h2>
-<input id="loginUser" placeholder="Username"><br><br>
-<input id="loginPass" type="password" placeholder="Password"><br><br>
-<button class="primary" onclick="loginAdmin()">Login</button>
+  <h2>Admin Login</h2>
+  <input id="loginUser" placeholder="Username"><br><br>
+  <input id="loginPass" type="password" placeholder="Password"><br><br>
+  <button class="primary" onclick="loginAdmin()">Login</button>
 </div>
 
 <div id="adminPage" class="page hidden">
-<h2>Admin Dashboard</h2>
-<input id="adminName" placeholder="Product Name"><br><br>
-<input id="adminPrice" type="number" placeholder="Price"><br><br>
-<select id="adminCategory">
-<option value="tshirt">T-Shirt</option>
-<option value="hoodie">Hoodie</option>
-<option value="tracksuit">Tracksuit</option>
-<option value="shoes">Shoes</option>
-<option value="belts">Belts</option>
-<option value="glasses">Glasses</option>
-<option value="fragrance">Men's Fragrance</option>
-<option value="jewelry">Jewelry</option>
-</select><br><br>
-<button class="primary" onclick="addProduct()">Add Product</button>
-<button class="secondary" onclick="logoutAdmin()">Logout</button>
+  <h2>Admin Dashboard</h2>
+  <input id="adminName" placeholder="Product Name"><br><br>
+  <input id="adminPrice" type="number" placeholder="Price"><br><br>
+  <select id="adminCategory">
+    <option value="tshirt">T-Shirt</option>
+    <option value="hoodie">Hoodie</option>
+    <option value="tracksuit">Tracksuit</option>
+    <option value="shoes">Shoes</option>
+    <option value="belts">Belts</option>
+    <option value="glasses">Glasses</option>
+    <option value="fragrance">Men's Fragrance</option>
+    <option value="jewelry">Jewelry</option>
+  </select><br><br>
+  <button class="primary" onclick="addProduct()">Add Product</button>
+  <button class="secondary" onclick="logoutAdmin()">Logout</button>
 </div>
 
 <div class="cart">
-<h3>Cart</h3>
-<div id="cartContainer"></div>
-<h4 id="cartTotal"></h4>
-<button class="primary" onclick="goCheckout()">Checkout</button>
+  <h3>Cart</h3>
+  <div id="cartContainer"></div>
+  <h4 id="cartTotal"></h4>
+  <button class="primary" onclick="goCheckout()">Checkout</button>
 </div>
 
 </main>
@@ -115,29 +216,29 @@ let maxPrice=300;
 let searchQuery="";
 let sortOption="newest";
 
+const ADMIN_USERNAME="admin";
+const ADMIN_PASSWORD="valcieri2026";
+
 const translations={
 fi:{
 add:"Lisää koriin",
 search:"Hae tuotteita...",
 categories:{
-all:"Kaikki",tshirt:"T-Paidat",hoodie:"Hupparit",tracksuit:"Tracksuitit",
-shoes:"Kengät",belts:"Vyöt",glasses:"Lasit",fragrance:"Hajuvedet",jewelry:"Korut"
+all:"Kaikki",tshirt:"T-Paidat",hoodie:"Hupparit",
+tracksuit:"Tracksuitit",shoes:"Kengät",
+belts:"Vyöt",glasses:"Lasit",
+fragrance:"Hajuvedet",jewelry:"Korut"
 }},
 en:{
 add:"Add to Cart",
 search:"Search products...",
 categories:{
-all:"All",tshirt:"T-Shirts",hoodie:"Hoodies",tracksuit:"Tracksuits",
-shoes:"Shoes",belts:"Belts",glasses:"Glasses",fragrance:"Fragrance",jewelry:"Jewelry"
+all:"All",tshirt:"T-Shirts",hoodie:"Hoodies",
+tracksuit:"Tracksuits",shoes:"Shoes",
+belts:"Belts",glasses:"Glasses",
+fragrance:"Fragrance",jewelry:"Jewelry"
 }}
 };
-
-const ADMIN_USERNAME="admin";
-const ADMIN_PASSWORD="valcieri2026";
-
-function toggleMenu(){
-document.getElementById("navLinks").classList.toggle("show");
-}
 
 function renderNav(){
 let nav=document.getElementById("navLinks");
@@ -154,21 +255,22 @@ nav.appendChild(btn);
 function renderProducts(){
 let container=document.getElementById("productsContainer");
 container.innerHTML=`
-<div style="grid-column:1/-1;display:flex;gap:15px;flex-wrap:wrap;margin-bottom:20px;">
-<input placeholder="${translations[currentLang].search}" oninput="handleSearch(this.value)">
-<input type="range" min="0" max="300" value="${maxPrice}" oninput="handlePrice(this.value)">
-<select onchange="handleSort(this.value)">
+<div class="controls">
+<input placeholder="${translations[currentLang].search}" oninput="searchQuery=this.value;renderProducts();">
+<input type="range" min="0" max="300" value="${maxPrice}" 
+oninput="maxPrice=this.value;renderProducts();">
+<select onchange="sortOption=this.value;renderProducts();">
 <option value="newest">Newest</option>
 <option value="low">Price ↑</option>
 <option value="high">Price ↓</option>
 </select>
 </div>`;
 
-let filtered=products.filter(p=>{
-return (selectedCategory==="all"||p.category===selectedCategory)
+let filtered=products.filter(p=>
+(selectedCategory==="all"||p.category===selectedCategory)
 && p.price<=maxPrice
-&& p.name.toLowerCase().includes(searchQuery.toLowerCase());
-});
+&& p.name.toLowerCase().includes(searchQuery.toLowerCase())
+);
 
 if(sortOption==="low")filtered.sort((a,b)=>a.price-b.price);
 else if(sortOption==="high")filtered.sort((a,b)=>b.price-a.price);
@@ -182,14 +284,12 @@ container.innerHTML+=`
 <select id="size-${p.id}">
 <option>S</option><option>M</option><option>L</option><option>XL</option>
 </select><br><br>
-<button class="primary" onclick="addToCart(${p.id})">${translations[currentLang].add}</button>
+<button class="primary" onclick="addToCart(${p.id})">
+${translations[currentLang].add}
+</button>
 </div>`;
 });
 }
-
-function handleSearch(v){searchQuery=v;renderProducts();}
-function handlePrice(v){maxPrice=v;renderProducts();}
-function handleSort(v){sortOption=v;renderProducts();}
 
 function addToCart(id){
 let product=products.find(p=>p.id===id);
@@ -278,4 +378,3 @@ renderCart();
 
 </body>
 </html>
-
