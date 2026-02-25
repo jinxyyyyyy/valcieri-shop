@@ -27,7 +27,6 @@ header {
   mix-blend-mode: multiply;
 }
 
-
 nav {
   background: black;
   padding: 15px;
@@ -35,11 +34,16 @@ nav {
   justify-content: center;
   gap: 25px;
   color: gold;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
-nav a {
-  color: gold;
-  text-decoration: none;
+nav button {
+  background: gold;
+  color: black;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
   font-weight: bold;
 }
 
@@ -110,42 +114,46 @@ footer {
 </header>
 
 <nav>
-  🛒 Cart (<span id="cartCount">0</span>)
-  <button onclick="goToCheckout()" style="width:150px;">Checkout</button>
+  🛒 <span id="cartText">Cart</span> (<span id="cartCount">0</span>)
+  <button onclick="goToCheckout()" id="checkoutBtn">Checkout</button>
+
+  <!-- Language Switch -->
+  <button onclick="setLanguage('fi')">FI</button>
+  <button onclick="setLanguage('en')">EN</button>
 </nav>
 
-<h2 class="section-title">Kategoriat</h2>
+<h2 class="section-title" id="categoriesTitle">Kategoriat</h2>
 
 <div class="categories">
-  <div class="category">Kengät</div>
-  <div class="category">Vyöt</div>
-  <div class="category">Lasit</div>
-  <div class="category">Colleget</div>
-  <div class="category">Hupparit</div>
-  <div class="category">Lökärit</div>
-  <div class="category">Tracksuitit</div>
-  <div class="category">T-paidat</div>
+  <div class="category" data-key="shoes">Kengät</div>
+  <div class="category" data-key="belts">Vyöt</div>
+  <div class="category" data-key="glasses">Lasit</div>
+  <div class="category" data-key="sweatshirts">Colleget</div>
+  <div class="category" data-key="hoodies">Hupparit</div>
+  <div class="category" data-key="joggers">Lökärit</div>
+  <div class="category" data-key="tracksuits">Tracksuitit</div>
+  <div class="category" data-key="tshirts">T-paidat</div>
 </div>
 
-<h2 class="section-title">Featured Products</h2>
+<h2 class="section-title" id="productsTitle">Featured Products</h2>
 
 <div class="products">
   <div class="product">
     <h3>VALCIERI T-Paita</h3>
     <p>€29</p>
-    <button onclick="addToCart('T-Paita',29)">Add to Cart</button>
+    <button onclick="addToCart('T-Paita',29)" class="addBtn">Add to Cart</button>
   </div>
 
   <div class="product">
     <h3>VALCIERI Huppari</h3>
     <p>€79</p>
-    <button onclick="addToCart('Huppari',79)">Add to Cart</button>
+    <button onclick="addToCart('Huppari',79)" class="addBtn">Add to Cart</button>
   </div>
 
   <div class="product">
     <h3>VALCIERI Tracksuit</h3>
     <p>€149</p>
-    <button onclick="addToCart('Tracksuit',149)">Add to Cart</button>
+    <button onclick="addToCart('Tracksuit',149)" class="addBtn">Add to Cart</button>
   </div>
 </div>
 
@@ -170,10 +178,59 @@ function goToCheckout(){
   window.location.href = "checkout.html";
 }
 
+/* ===== LANGUAGE SYSTEM ===== */
+
+const translations = {
+  fi: {
+    cart: "Ostoskori",
+    checkout: "Kassa",
+    categories: "Kategoriat",
+    products: "Suositut tuotteet",
+    shoes: "Kengät",
+    belts: "Vyöt",
+    glasses: "Lasit",
+    sweatshirts: "Colleget",
+    hoodies: "Hupparit",
+    joggers: "Lökärit",
+    tracksuits: "Tracksuitit",
+    tshirts: "T-paidat",
+    add: "Lisää koriin"
+  },
+  en: {
+    cart: "Cart",
+    checkout: "Checkout",
+    categories: "Categories",
+    products: "Featured Products",
+    shoes: "Shoes",
+    belts: "Belts",
+    glasses: "Glasses",
+    sweatshirts: "Sweatshirts",
+    hoodies: "Hoodies",
+    joggers: "Joggers",
+    tracksuits: "Tracksuits",
+    tshirts: "T-Shirts",
+    add: "Add to Cart"
+  }
+};
+
+function setLanguage(lang){
+  document.getElementById("cartText").innerText = translations[lang].cart;
+  document.getElementById("checkoutBtn").innerText = translations[lang].checkout;
+  document.getElementById("categoriesTitle").innerText = translations[lang].categories;
+  document.getElementById("productsTitle").innerText = translations[lang].products;
+
+  document.querySelectorAll(".category").forEach(cat => {
+    const key = cat.getAttribute("data-key");
+    cat.innerText = translations[lang][key];
+  });
+
+  document.querySelectorAll(".addBtn").forEach(btn => {
+    btn.innerText = translations[lang].add;
+  });
+}
+
 updateCart();
 </script>
 
 </body>
 </html>
-
-
