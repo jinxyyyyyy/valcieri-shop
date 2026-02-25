@@ -1,182 +1,142 @@
 <!DOCTYPE html>
-<html lang="fi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VALCIERI</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#f5f5f5;color:#111}
-
-/* TOPBAR */
-.topbar{
-  background:black;color:gold;
-  display:flex;justify-content:space-between;
-  align-items:center;padding:15px 30px;
-  position:sticky;top:0;z-index:1000
-}
-.brand{font-weight:bold;letter-spacing:3px}
-.nav-links{display:flex;gap:15px}
-.nav-links button,.lang-switch button{
-  background:none;border:none;color:gold;font-weight:bold;cursor:pointer
-}
-
-/* MOBILE MENU */
-.menu-toggle{display:none;font-size:22px;cursor:pointer}
-@media(max-width:768px){
-  .nav-links{display:none;flex-direction:column;background:black;
-  position:absolute;top:60px;left:0;width:100%;padding:20px}
-  .nav-links.active{display:flex}
-  .menu-toggle{display:block}
-}
-
-/* HERO */
-.hero{height:40vh;background:#ddd;display:flex;justify-content:center;align-items:center}
-.hero img{max-width:250px}
-
-/* MAIN */
-main{padding:40px}
-.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
-.product{background:white;padding:20px;border-radius:10px;text-align:center}
-.product select{margin:10px 0;padding:5px}
-button{padding:8px 12px;border:none;border-radius:4px;cursor:pointer}
-.primary{background:black;color:gold;width:100%;font-weight:bold}
-
-/* CART */
-.cart-item{display:flex;justify-content:space-between;margin-bottom:8px}
-
-/* PAGES */
+body{margin:0;font-family:Arial;background:#111;color:#fff}
+header{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;background:#000;position:sticky;top:0;z-index:1000}
+.logo{font-size:22px;font-weight:bold}
+nav{display:flex;gap:10px;flex-wrap:wrap}
+button{cursor:pointer}
+.primary{background:#fff;color:#000;border:none;padding:8px 12px}
+.secondary{background:#333;color:#fff;border:1px solid #555;padding:8px 12px}
 .hidden{display:none}
-.page{max-width:600px;margin:auto}
-
-/* FOOTER */
-footer{background:black;color:gold;text-align:center;padding:20px;margin-top:40px}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;padding:20px}
+.product{background:#1c1c1c;padding:15px;border-radius:8px;text-align:center}
+input,select{padding:6px;margin-top:5px}
+.cart{padding:20px;background:#000}
+.page{padding:20px}
+.mobile-toggle{display:none}
+@media(max-width:768px){
+nav{display:none;flex-direction:column;background:#000;position:absolute;top:60px;left:0;width:100%;padding:15px}
+nav.show{display:flex}
+.mobile-toggle{display:block;background:#fff;color:#000;border:none;padding:6px 10px}
+}
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="brand">VALCIERI</div>
-  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-  <div class="nav-links" id="navLinks"></div>
-  <div class="lang-switch">
-    <button onclick="setLanguage('fi')">FI</button>
-    <button onclick="setLanguage('en')">EN</button>
-    <button onclick="showAdmin()">Admin</button>
-  </div>
-</div>
+<header>
+<div class="logo">VALCIERI</div>
 
-<div class="hero">
-  <img src="logo.jpg">
+<button class="mobile-toggle" onclick="toggleMenu()">☰</button>
+
+<nav id="navLinks"></nav>
+
+<div>
+<button onclick="setLanguage('fi')" class="secondary">FI</button>
+<button onclick="setLanguage('en')" class="secondary">EN</button>
+<button onclick="checkAdminAccess()" class="secondary">Admin</button>
 </div>
+</header>
 
 <main>
 
-<!-- STORE -->
-<div id="storePage">
-  <h2 id="productsTitle"></h2>
-  <div class="products" id="productsContainer"></div>
-
-  <h2 id="cartTitle"></h2>
-  <div id="cartContainer"></div>
-  <p id="cartTotal"></p>
-  <button class="primary" onclick="goCheckout()" id="checkoutBtn"></button>
+<div id="storePage" class="page">
+<div class="products" id="productsContainer"></div>
 </div>
 
-<!-- CHECKOUT -->
-<div id="checkoutPage" class="hidden page">
-  <h2 id="checkoutTitle"></h2>
-  <input type="text" id="name">
-  <input type="email" id="email">
-  <input type="text" id="address">
-  <p id="checkoutTotal"></p>
-  <button class="primary" onclick="placeOrder()" id="placeOrderBtn"></button>
-  <button onclick="backStore()" id="backBtn"></button>
+<div id="checkoutPage" class="page hidden">
+<h2>Checkout</h2>
+<div id="checkoutItems"></div>
+<h3 id="checkoutTotal"></h3>
+<button class="primary" onclick="placeOrder()">Place Order</button>
 </div>
 
-<!-- CONFIRMATION -->
-<div id="confirmationPage" class="hidden page">
-  <h2 id="confirmTitle"></h2>
-  <p id="confirmMessage"></p>
-  <button onclick="backStore()" class="primary">OK</button>
+<div id="confirmationPage" class="page hidden">
+<h2>Order Confirmed ✅</h2>
+<p>Thank you for shopping with VALCIERI.</p>
+<button class="primary" onclick="showPage('storePage')">Back to Store</button>
 </div>
 
-<!-- ADMIN -->
-<div id="adminPage" class="hidden page">
-  <h2>Admin Dashboard</h2>
-  <input type="text" id="adminName" placeholder="Product Name">
-  <input type="number" id="adminPrice" placeholder="Price">
-  <select id="adminCategory"></select>
-  <button onclick="addProduct()" class="primary">Add Product</button>
+<div id="loginPage" class="page hidden">
+<h2>Admin Login</h2>
+<input id="loginUser" placeholder="Username"><br><br>
+<input id="loginPass" type="password" placeholder="Password"><br><br>
+<button class="primary" onclick="loginAdmin()">Login</button>
+</div>
+
+<div id="adminPage" class="page hidden">
+<h2>Admin Dashboard</h2>
+<input id="adminName" placeholder="Product Name"><br><br>
+<input id="adminPrice" type="number" placeholder="Price"><br><br>
+<select id="adminCategory">
+<option value="tshirt">T-Shirt</option>
+<option value="hoodie">Hoodie</option>
+<option value="tracksuit">Tracksuit</option>
+<option value="shoes">Shoes</option>
+<option value="belts">Belts</option>
+<option value="glasses">Glasses</option>
+<option value="fragrance">Men's Fragrance</option>
+<option value="jewelry">Jewelry</option>
+</select><br><br>
+<button class="primary" onclick="addProduct()">Add Product</button>
+<button class="secondary" onclick="logoutAdmin()">Logout</button>
+</div>
+
+<div class="cart">
+<h3>Cart</h3>
+<div id="cartContainer"></div>
+<h4 id="cartTotal"></h4>
+<button class="primary" onclick="goCheckout()">Checkout</button>
 </div>
 
 </main>
-
-<footer>© 2026 VALCIERI</footer>
 
 <script>
 let currentLang="fi";
 let cart=JSON.parse(localStorage.getItem("cart"))||[];
 let products=JSON.parse(localStorage.getItem("products"))||[
-{name:"VALCIERI T-Shirt",price:29,category:"tshirt"},
-{name:"VALCIERI Hoodie",price:79,category:"hoodie"},
-{name:"VALCIERI Tracksuit",price:149,category:"tracksuit"},
-{name:"VALCIERI Shoes",price:99,category:"shoes"},
-{name:"VALCIERI Belt",price:45,category:"belts"},
-{name:"VALCIERI Glasses",price:60,category:"glasses"},
-{name:"VALCIERI Men's Fragrance",price:95,category:"fragrance"},
-{name:"VALCIERI Jewelry",price:120,category:"jewelry"}
+{id:1,name:"VALCIERI T-Shirt",price:29,category:"tshirt",created:Date.now()},
+{id:2,name:"VALCIERI Hoodie",price:79,category:"hoodie",created:Date.now()},
+{id:3,name:"VALCIERI Tracksuit",price:149,category:"tracksuit",created:Date.now()},
+{id:4,name:"VALCIERI Shoes",price:99,category:"shoes",created:Date.now()},
+{id:5,name:"VALCIERI Belt",price:45,category:"belts",created:Date.now()},
+{id:6,name:"VALCIERI Glasses",price:60,category:"glasses",created:Date.now()},
+{id:7,name:"VALCIERI Men's Fragrance",price:95,category:"fragrance",created:Date.now()},
+{id:8,name:"VALCIERI Jewelry",price:120,category:"jewelry",created:Date.now()}
 ];
+
+let selectedCategory="all";
+let maxPrice=300;
+let searchQuery="";
+let sortOption="newest";
 
 const translations={
 fi:{
-featured:"Suositut tuotteet",
-cart:"Ostoskori",
-total:"Yhteensä",
-checkout:"Kassalle",
-checkoutTitle:"Kassa",
-place:"Tee tilaus",
-back:"Takaisin",
-confirm:"Tilaus vahvistettu",
-success:"Kiitos tilauksestasi!",
+add:"Lisää koriin",
+search:"Hae tuotteita...",
 categories:{
-all:"Kaikki",
-tshirt:"T-Paidat",
-hoodie:"Hupparit",
-tracksuit:"Tracksuitit",
-shoes:"Kengät",
-belts:"Vyöt",
-glasses:"Lasit",
-fragrance:"Miesten tuoksut",
-jewelry:"Korut"
-}
-},
+all:"Kaikki",tshirt:"T-Paidat",hoodie:"Hupparit",tracksuit:"Tracksuitit",
+shoes:"Kengät",belts:"Vyöt",glasses:"Lasit",fragrance:"Miesten tuoksut",jewelry:"Korut"
+}},
 en:{
-featured:"Featured Products",
-cart:"Cart",
-total:"Total",
-checkout:"Checkout",
-checkoutTitle:"Checkout",
-place:"Place Order",
-back:"Back",
-confirm:"Order Confirmed",
-success:"Thank you for your order!",
+add:"Add to Cart",
+search:"Search products...",
 categories:{
-all:"All",
-tshirt:"T-Shirts",
-hoodie:"Hoodies",
-tracksuit:"Tracksuits",
-shoes:"Shoes",
-belts:"Belts",
-glasses:"Glasses",
-fragrance:"Men's Fragrance",
-jewelry:"Jewelry"
-}
-}
+all:"All",tshirt:"T-Shirts",hoodie:"Hoodies",tracksuit:"Tracksuits",
+shoes:"Shoes",belts:"Belts",glasses:"Glasses",fragrance:"Men's Fragrance",jewelry:"Jewelry"
+}}
 };
 
+const ADMIN_USERNAME="admin";
+const ADMIN_PASSWORD="valcieri2026";
+
 function toggleMenu(){
-document.getElementById("navLinks").classList.toggle("active");
+document.getElementById("navLinks").classList.toggle("show");
 }
 
 function renderNav(){
@@ -184,37 +144,59 @@ let nav=document.getElementById("navLinks");
 nav.innerHTML="";
 for(let key in translations[currentLang].categories){
 let btn=document.createElement("button");
+btn.className="secondary";
 btn.textContent=translations[currentLang].categories[key];
-btn.onclick=()=>renderProducts(key);
+btn.onclick=()=>{selectedCategory=key;renderProducts();}
 nav.appendChild(btn);
 }
 }
 
-function renderProducts(cat="all"){
+function renderProducts(){
 let container=document.getElementById("productsContainer");
-container.innerHTML="";
-products.forEach(p=>{
-if(cat==="all"||p.category===cat){
+container.innerHTML=`
+<div style="grid-column:1/-1;display:flex;gap:15px;flex-wrap:wrap;margin-bottom:20px;">
+<input placeholder="${translations[currentLang].search}" oninput="handleSearch(this.value)">
+<input type="range" min="0" max="300" value="${maxPrice}" oninput="handlePrice(this.value)">
+<select onchange="handleSort(this.value)">
+<option value="newest">Newest</option>
+<option value="low">Price ↑</option>
+<option value="high">Price ↓</option>
+</select>
+</div>`;
+
+let filtered=products.filter(p=>{
+return (selectedCategory==="all"||p.category===selectedCategory)
+&& p.price<=maxPrice
+&& p.name.toLowerCase().includes(searchQuery.toLowerCase());
+});
+
+if(sortOption==="low")filtered.sort((a,b)=>a.price-b.price);
+else if(sortOption==="high")filtered.sort((a,b)=>b.price-a.price);
+else filtered.sort((a,b)=>b.created-a.created);
+
+filtered.forEach(p=>{
 container.innerHTML+=`
 <div class="product">
 <h3>${p.name}</h3>
 <p>€${p.price}</p>
-<select id="size-${p.name}">
+<select id="size-${p.id}">
 <option>S</option><option>M</option><option>L</option><option>XL</option>
-</select>
-<button class="primary" onclick="addToCart('${p.name}',${p.price})">
-${translations[currentLang].checkout}
-</button>
+</select><br><br>
+<button class="primary" onclick="addToCart(${p.id})">${translations[currentLang].add}</button>
 </div>`;
-}
 });
 }
 
-function addToCart(name,price){
-let size=document.getElementById("size-"+name)?.value||"-";
-let existing=cart.find(i=>i.name===name&&i.size===size);
+function handleSearch(v){searchQuery=v;renderProducts();}
+function handlePrice(v){maxPrice=v;renderProducts();}
+function handleSort(v){sortOption=v;renderProducts();}
+
+function addToCart(id){
+let product=products.find(p=>p.id===id);
+let size=document.getElementById("size-"+id).value;
+let existing=cart.find(i=>i.id===id&&i.size===size);
 if(existing)existing.qty++;
-else cart.push({name,price,qty:1,size});
+else cart.push({...product,size,qty:1});
 renderCart();
 }
 
@@ -222,97 +204,76 @@ function renderCart(){
 let c=document.getElementById("cartContainer");
 c.innerHTML="";
 let total=0;
-cart.forEach((item,i)=>{
-total+=item.price*item.qty;
-c.innerHTML+=`
-<div class="cart-item">
-<span>${item.name} (${item.size})</span>
-<span>${item.qty}</span>
-</div>`;
+cart.forEach(i=>{
+total+=i.price*i.qty;
+c.innerHTML+=`<div>${i.name} (${i.size}) x${i.qty}</div>`;
 });
-document.getElementById("cartTotal").innerHTML=
-`${translations[currentLang].total}: €${total.toFixed(2)}`;
+document.getElementById("cartTotal").innerText="Total: €"+total.toFixed(2);
 localStorage.setItem("cart",JSON.stringify(cart));
 }
 
 function goCheckout(){
 showPage("checkoutPage");
-updateCheckout();
-}
-
-function updateCheckout(){
-let total=cart.reduce((a,b)=>a+b.price*b.qty,0);
-document.getElementById("checkoutTotal").innerHTML=
-`${translations[currentLang].total}: €${total.toFixed(2)}`;
+let items=document.getElementById("checkoutItems");
+let total=0;
+items.innerHTML="";
+cart.forEach(i=>{
+total+=i.price*i.qty;
+items.innerHTML+=`<div>${i.name} (${i.size}) x${i.qty}</div>`;
+});
+document.getElementById("checkoutTotal").innerText="Total: €"+total.toFixed(2);
 }
 
 function placeOrder(){
 cart=[];
-localStorage.setItem("cart",JSON.stringify(cart));
+localStorage.setItem("cart","[]");
+renderCart();
 showPage("confirmationPage");
 }
-
-function backStore(){
-showPage("storePage");
-}
-
-function showPage(id){
-["storePage","checkoutPage","confirmationPage","adminPage"]
-.forEach(p=>document.getElementById(p).classList.add("hidden"));
-document.getElementById(id).classList.remove("hidden");
-}
-
-function showAdmin(){showPage("adminPage");}
 
 function addProduct(){
 let name=document.getElementById("adminName").value;
 let price=parseFloat(document.getElementById("adminPrice").value);
 let category=document.getElementById("adminCategory").value;
-if(name&&price){
-products.push({name,price,category});
+products.push({id:Date.now(),name,price,category,created:Date.now()});
 localStorage.setItem("products",JSON.stringify(products));
 renderProducts();
-alert("Product Added");
-}
 }
 
-function populateAdminCategories(){
-let select=document.getElementById("adminCategory");
-for(let key in translations[currentLang].categories){
-if(key!=="all"){
-let opt=document.createElement("option");
-opt.value=key;
-opt.textContent=translations[currentLang].categories[key];
-select.appendChild(opt);
+function loginAdmin(){
+let u=document.getElementById("loginUser").value;
+let p=document.getElementById("loginPass").value;
+if(u===ADMIN_USERNAME&&p===ADMIN_PASSWORD){
+sessionStorage.setItem("adminAuth","true");
+showPage("adminPage");
+}else alert("Wrong login");
 }
+
+function logoutAdmin(){
+sessionStorage.removeItem("adminAuth");
+showPage("storePage");
 }
+
+function checkAdminAccess(){
+if(sessionStorage.getItem("adminAuth")==="true")showPage("adminPage");
+else showPage("loginPage");
+}
+
+function showPage(id){
+["storePage","checkoutPage","confirmationPage","adminPage","loginPage"]
+.forEach(p=>document.getElementById(p).classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
 }
 
 function setLanguage(lang){
 currentLang=lang;
-document.getElementById("productsTitle").innerText=
-translations[lang].featured;
-document.getElementById("cartTitle").innerText=
-translations[lang].cart;
-document.getElementById("checkoutBtn").innerText=
-translations[lang].checkout;
-document.getElementById("checkoutTitle").innerText=
-translations[lang].checkoutTitle;
-document.getElementById("placeOrderBtn").innerText=
-translations[lang].place;
-document.getElementById("backBtn").innerText=
-translations[lang].back;
-document.getElementById("confirmTitle").innerText=
-translations[lang].confirm;
-document.getElementById("confirmMessage").innerText=
-translations[lang].success;
+renderNav();
+renderProducts();
+}
+
 renderNav();
 renderProducts();
 renderCart();
-}
-
-populateAdminCategories();
-setLanguage("fi");
 </script>
 
 </body>
