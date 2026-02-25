@@ -1,147 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>VALCIERI</title>
 
 <script>
+/* ===== Currency Detection ===== */
 function detectCurrency() {
   const locale = navigator.language || "en-US";
-
-  if(locale.includes("GB")) return "GBP";
-  if(locale.includes("CA")) return "CAD";
-  if(locale.includes("AU")) return "AUD";
-  if(locale.includes("DE") || locale.includes("FR") || locale.includes("IT") || locale.includes("ES") || locale.includes("NL") || locale.includes("FI")) return "EUR";
-  if(locale.includes("US")) return "USD";
-
+  if (locale.includes("GB")) return "GBP";
+  if (locale.includes("CA")) return "CAD";
+  if (locale.includes("AU")) return "AUD";
+  if (locale.match(/DE|FR|IT|ES|NL|FI/)) return "EUR";
   return "USD";
 }
-
 let currency = detectCurrency();
+
+/* ===== Shipping by Region ===== */
+function detectShipping() {
+  const locale = navigator.language || "en-US";
+  if (locale.includes("US")) return 8;
+  if (locale.includes("CA")) return 15;
+  if (locale.includes("GB")) return 15;
+  if (locale.includes("AU")) return 25;
+  if (locale.match(/DE|FR|IT|ES|NL|FI/)) return 18;
+  return 30;
+}
+let shippingCost = detectShipping();
 </script>
 
 <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&intent=capture"></script>
 
 <style>
-body { margin:0; font-family:Arial; background:#f4f4f4; text-align:center; }
-header { padding:60px 20px; background:#eee; }
-nav { background:black; color:gold; padding:15px; }
-.products { display:flex; flex-wrap:wrap; justify-content:center; gap:25px; padding:40px; }
-.product { background:white; width:220px; padding:20px; border-radius:10px; }
-button { background:black; color:gold; border:none; padding:10px; margin-top:10px; cursor:pointer; width:100%; }
-footer { background:black; color:gold; padding:30px; margin-top:40px; }
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    text-align: center;
+  }
+  header {
+    padding: 60px 20px 30px 20px;
+    background: #eee;
+  }
+  .logo {
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px auto;
+    mix-blend-mode: multiply;
+    filter: brightness(0.85);
+  }
+  nav {
+    background: black;
+    color: gold;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .categories,
+  .products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px;
+  }
+  .category,
+  .product {
+    background: white;
+    width: 180px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  button {
+    background: black;
+    color: gold;
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    width: 100%;
+  }
+  footer {
+    background: black;
+    color: gold;
+    padding: 30px;
+    margin-top: 40px;
+  }
+  .lang-btn {
+    background: gold;
+    color: black;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+  }
 </style>
 </head>
 
 <body>
-
 <header>
-<h1>VALCIERI</h1>
-<p>Worldwide Shipping 🌍</p>
+  <img src="logo.jpg" alt="VALCIERI logo" class="logo" />
+  <p id="worldwideText">Worldwide Shipping 🌍</p>
 </header>
 
 <nav>
-🛒 Total: <span id="currencySymbol"></span><span id="cartTotal">0.00</span>
+  🛒 <span id="totalLabel">Total:</span> <span id="currencySymbol"></span
+  ><span id="cartTotal">0.00</span>
+  <button class="lang-btn" onclick="setLanguage('fi')">FI</button>
+  <button class="lang-btn" onclick="setLanguage('en')">EN</button>
 </nav>
 
+<h2 id="categoriesTitle">Categories</h2>
+
+<div class="categories">
+  <div class="category" onclick="filterCategory('shoes')">Kenkii</div>
+  <div class="category" onclick="filterCategory('belts')">Vyöt</div>
+  <div class="category" onclick="filterCategory('glasses')">Lasit</div>
+  <div class="category" onclick="filterCategory('sweatshirts')">Colleget</div>
+  <div class="category" onclick="filterCategory('hoodies')">Hupparit</div>
+  <div class="category" onclick="filterCategory('joggers')">Lökärit</div>
+  <div class="category" onclick="filterCategory('tracksuits')">Tracksuitit</div>
+  <div class="category" onclick="filterCategory('tshirts')">T-paidat</div>
+  <div class="category" onclick="filterCategory('all')">All</div>
+</div>
+
+<h2 id="productsTitle">Featured Products</h2>
+
 <div class="products">
-<div class="product">
-<h3>T-Shirt</h3>
-<button onclick="addToCart(29)">Add to Cart</button>
+  <div class="product" data-category="tshirts">
+    <h3>VALCIERI T-Shirt</h3>
+    <button onclick="addToCart(29)">Add</button>
+  </div>
+
+  <div class="product" data-category="hoodies">
+    <h3>VALCIERI Hoodie</h3>
+    <button onclick="addToCart(79)">Add</button>
+  </div>
+
+  <div class="product" data-category="tracksuits">
+    <h3>VALCIERI Tracksuit</h3>
+    <button onclick="addToCart(149)">Add</button>
+  </div>
+
+  <div class="product" data-category="belts">
+    <h3>VALCIERI Belt</h3>
+    <button onclick="addToCart(35)">Add</button>
+  </div>
+
+  <div class="product" data-category="glasses">
+    <h3>VALCIERI Glasses</h3>
+    <button onclick="addToCart(50)">Add</button>
+  </div>
+
+  <div class="product" data-category="sweatshirts">
+    <h3>VALCIERI Sweatshirt</h3>
+    <button onclick="addToCart(60)">Add</button>
+  </div>
+
+  <div class="product" data-category="joggers">
+    <h3>VALCIERI Joggers</h3>
+    <button onclick="addToCart(45)">Add</button>
+  </div>
+
+  <div class="product" data-category="shoes">
+    <h3>VALCIERI Shoes</h3>
+    <button onclick="addToCart(99)">Add</button>
+  </div>
 </div>
 
-<div class="product">
-<h3>Hoodie</h3>
-<button onclick="addToCart(79)">Add to Cart</button>
-</div>
+<p id="shippingText"></p>
 
-<div class="product">
-<h3>Tracksuit</h3>
-<button onclick="addToCart(149)">Add to Cart</button>
-</div>
-</div>
+<input type="checkbox" id="agreeTerms" />
+<span id="agreeLabel">I agree to Terms</span>
 
-<p>Shipping: <span id="shippingDisplay"></span></p>
-
-<input type="checkbox" id="agreeTerms">
-I agree to Terms
-
-<br><br>
+<br /><br />
 <div id="paypal-button-container"></div>
 
 <footer>
-<p>Owner: YOUR_FULL_NAME</p>
-<p>Contact: your@email.com</p>
-<p>© 2026 VALCIERI</p>
+  <p>Owner: YOUR_FULL_NAME</p>
+  <p>Contact: your@email.com</p>
+  <p>© 2026 VALCIERI</p>
 </footer>
 
 <script>
-let cart = [];
+  /* ===== Currency Symbol ===== */
+  function getCurrencySymbol(cur) {
+    return { USD: "$", EUR: "€", GBP: "£", CAD: "$", AUD: "$" }[cur] || "$";
+  }
 
-function getCurrencySymbol(cur){
-  return {USD:"$",EUR:"€",GBP:"£",CAD:"$",AUD:"$"}[cur] || "$";
-}
+  document.getElementById("currencySymbol").innerText = getCurrencySymbol(currency);
+  document.getElementById("shippingText").innerText =
+    "Shipping: " + getCurrencySymbol(currency) + shippingCost;
 
-function detectShipping(){
-  const locale = navigator.language || "en-US";
+  /* ===== Cart ===== */
+  let cart = [];
 
-  if(locale.includes("US")) return 8;
-  if(locale.includes("CA")) return 15;
-  if(locale.includes("GB")) return 15;
-  if(locale.includes("AU")) return 25;
-  if(locale.includes("DE")||locale.includes("FR")||locale.includes("IT")||locale.includes("ES")||locale.includes("NL")||locale.includes("FI")) return 18;
+  function addToCart(price) {
+    cart.push(price);
+    updateTotal();
+  }
 
-  return 30;
-}
+  function updateTotal() {
+    let subtotal = cart.reduce((a, b) => a + b, 0);
+    let total = subtotal + (subtotal > 0 ? shippingCost : 0);
+    document.getElementById("cartTotal").innerText = total.toFixed(2);
+  }
 
-let shippingCost = detectShipping();
+  /* ===== Category Filter ===== */
+  function filterCategory(key) {
+    const products = document.querySelectorAll(".product");
+    products.forEach((p) => {
+      if (key === "all" || p.dataset.category === key) {
+        p.style.display = "block";
+      } else {
+        p.style.display = "none";
+      }
+    });
+  }
 
-document.getElementById("currencySymbol").innerText = getCurrencySymbol(currency);
-document.getElementById("shippingDisplay").innerText = getCurrencySymbol(currency)+shippingCost.toFixed(2);
+  /* ===== PayPal ===== */
+  paypal.Buttons({
+    createOrder: function (data, actions) {
+      let subtotal = cart.reduce((a, b) => a + b, 0);
+      if (subtotal <= 0) {
+        alert("Cart empty");
+        return;
+      }
+      if (!document.getElementById("agreeTerms").checked) {
+        alert("Agree to Terms");
+        return;
+      }
+      let total = subtotal + shippingCost;
+      return actions.order.create({
+        purchase_units: [
+          {
+            amount: { currency_code: currency, value: total.toFixed(2) },
+          },
+        ],
+      });
+    },
+    onApprove: function (data, actions) {
+      return actions.order.capture().then(function (details) {
+        alert("Payment successful!");
+        cart = [];
+        updateTotal();
+      });
+    },
+  }).render("#paypal-button-container");
 
-function addToCart(price){
-  cart.push(price);
-  updateTotal();
-}
+  /* ===== Language System ===== */
+  const translations = {
+    fi: {
+      categories: "Kategoriat",
+      products: "Suositut tuotteet",
+      total: "Yhteensä:",
+      agree: "Hyväksyn ehdot",
+      worldwide: "Toimitamme maailmanlaajuisesti 🌍",
+      add: "Lisää",
+    },
+    en: {
+      categories: "Categories",
+      products: "Featured Products",
+      total: "Total:",
+      agree: "I agree to Terms",
+      worldwide: "Worldwide Shipping 🌍",
+      add: "Add",
+    },
+  };
 
-function updateTotal(){
-  let subtotal = cart.reduce((a,b)=>a+b,0);
-  let total = subtotal + (subtotal>0?shippingCost:0);
-  document.getElementById("cartTotal").innerText = total.toFixed(2);
-}
-
-paypal.Buttons({
-
-createOrder: function(data, actions){
-
-let subtotal = cart.reduce((a,b)=>a+b,0);
-if(subtotal<=0){ alert("Cart empty"); return; }
-if(!document.getElementById("agreeTerms").checked){ alert("Agree to Terms"); return; }
-
-let total = subtotal + shippingCost;
-
-return actions.order.create({
-purchase_units: [{
-amount: {
-currency_code: currency,
-value: total.toFixed(2)
-}
-}]
-});
-},
-
-onApprove: function(data, actions){
-return actions.order.capture().then(function(details){
-alert("Payment successful!");
-cart=[];
-updateTotal();
-});
-}
-
-}).render('#paypal-button-container');
-
+  function setLanguage(lang) {
+    document.getElementById("categoriesTitle").innerText =
+      translations[lang].categories;
+    document.getElementById("productsTitle").innerText =
+      translations[lang].products;
+    document.getElementById("totalLabel").innerText = translations[lang].total;
+    document.getElementById("agreeLabel").innerText = translations[lang].agree;
+    document.getElementById("worldwideText").innerText =
+      translations[lang].worldwide;
+    document.querySelectorAll(".product button").forEach((btn) => {
+      btn.innerText = translations[lang].add;
+    });
+  }
 </script>
-
 </body>
 </html>
