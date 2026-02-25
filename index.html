@@ -5,181 +5,264 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VALCIERI</title>
 
+<!-- Luxury Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
-body{margin:0;font-family:Arial;background:#111;color:#fff}
-header{background:#000;padding:20px 0;position:sticky;top:0;text-align:center;border-bottom:1px solid #222}
-.logo-img{height:60px}
-.top-bar{position:absolute;right:20px;top:20px}
-.top-bar button{margin-left:8px}
-nav{display:flex;justify-content:center;gap:15px;padding:15px 0;background:#000;border-bottom:1px solid #222;flex-wrap:wrap}
-button{cursor:pointer}
-.primary{background:#fff;color:#000;border:none;padding:8px 12px;font-weight:bold}
-.secondary{background:#222;color:#fff;border:1px solid #444;padding:8px 12px}
+
+:root{
+  --black:#0b0b0b;
+  --soft-black:#111;
+  --gold:#c6a96b;
+  --soft-gold:#a88c52;
+  --text:#f5f5f5;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:var(--black);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  letter-spacing:0.5px;
+}
+
+/* HEADER */
+header{
+  background:var(--black);
+  padding:40px 0 25px;
+  text-align:center;
+  border-bottom:1px solid #1a1a1a;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+
+.logo-img{
+  height:70px;
+  margin-bottom:25px;
+}
+
+.top-bar{
+  position:absolute;
+  right:30px;
+  top:30px;
+}
+
+.top-bar button{
+  margin-left:10px;
+}
+
+/* NAVIGATION */
+nav{
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  padding-bottom:20px;
+  font-family:'Playfair Display',serif;
+  text-transform:uppercase;
+  font-size:14px;
+  letter-spacing:2px;
+}
+
+nav button{
+  background:none;
+  border:none;
+  color:var(--text);
+  position:relative;
+  padding-bottom:5px;
+  transition:0.3s;
+}
+
+nav button:hover{
+  color:var(--gold);
+}
+
+nav button::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:0%;
+  height:1px;
+  background:var(--gold);
+  transition:0.3s;
+}
+
+nav button:hover::after{
+  width:100%;
+}
+
+/* BUTTONS */
+.primary{
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  padding:10px 18px;
+  font-size:13px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  transition:0.3s;
+}
+
+.primary:hover{
+  background:var(--gold);
+  color:#000;
+}
+
+.secondary{
+  background:none;
+  border:1px solid #333;
+  color:#aaa;
+  padding:6px 12px;
+  font-size:12px;
+}
+
+.secondary:hover{
+  border-color:var(--gold);
+  color:var(--gold);
+}
+
+/* PRODUCTS */
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:60px;
+  padding:80px 10%;
+}
+
+.product{
+  text-align:center;
+}
+
+.product h3{
+  font-family:'Playfair Display',serif;
+  font-size:20px;
+  letter-spacing:1px;
+  margin-bottom:10px;
+}
+
+.product p{
+  color:var(--gold);
+  margin-bottom:15px;
+  font-weight:300;
+}
+
+.product select{
+  background:transparent;
+  border:1px solid #333;
+  color:var(--text);
+  padding:6px 10px;
+  margin-bottom:20px;
+}
+
+/* CONTROLS */
+.controls{
+  grid-column:1/-1;
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  margin-bottom:40px;
+}
+
+.controls input,
+.controls select{
+  background:transparent;
+  border:1px solid #333;
+  color:var(--text);
+  padding:8px 12px;
+}
+
+/* CART */
+.cart{
+  border-top:1px solid #1a1a1a;
+  padding:50px 10%;
+}
+
+.cart h3{
+  font-family:'Playfair Display',serif;
+  letter-spacing:2px;
+  margin-bottom:20px;
+}
+
+/* PAGES */
+.page{
+  padding:80px 10%;
+}
+
+.page h2{
+  font-family:'Playfair Display',serif;
+  font-size:28px;
+  letter-spacing:2px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{gap:20px;font-size:12px}
+  .products{padding:50px 8%;gap:40px}
+  .logo-img{height:50px}
+}
+
 .hidden{display:none}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;padding:30px}
-.product{background:#1a1a1a;padding:20px;border-radius:10px;text-align:center}
-.controls{grid-column:1/-1;display:flex;gap:15px;flex-wrap:wrap;margin-bottom:20px}
-.cart{padding:20px;background:#000;border-top:1px solid #222}
-.page{padding:30px}
-@media(max-width:768px){.logo-img{height:45px}}
+
 </style>
 </head>
 <body>
 
 <header>
-<img src="logo.jpg" alt="VALCIERI Logo" class="logo-img" id="logoAlt">
+<img src="logo.jpg" class="logo-img">
+
 <div class="top-bar">
 <button onclick="setLanguage('fi')" class="secondary">FI</button>
 <button onclick="setLanguage('en')" class="secondary">EN</button>
-<button onclick="checkAdminAccess()" class="secondary" id="adminBtn"></button>
 </div>
-</header>
 
 <nav id="navLinks"></nav>
+</header>
 
 <main>
-
 <div id="storePage" class="page">
 <div class="products" id="productsContainer"></div>
 </div>
 
-<div id="checkoutPage" class="page hidden">
-<h2 id="checkoutTitle"></h2>
-<div id="checkoutItems"></div>
-<h3 id="checkoutTotal"></h3>
-<button class="primary" onclick="placeOrder()" id="placeOrderBtn"></button>
-</div>
-
-<div id="confirmationPage" class="page hidden">
-<h2 id="confirmTitle"></h2>
-<p id="confirmText"></p>
-<button class="primary" onclick="showPage('storePage')" id="backStoreBtn"></button>
-</div>
-
-<div id="loginPage" class="page hidden">
-<h2 id="adminLoginTitle"></h2>
-<input id="loginUser"><br><br>
-<input id="loginPass" type="password"><br><br>
-<button class="primary" onclick="loginAdmin()" id="loginBtn"></button>
-</div>
-
-<div id="adminPage" class="page hidden">
-<h2 id="adminDashTitle"></h2>
-<input id="adminName"><br><br>
-<input id="adminPrice" type="number"><br><br>
-<select id="adminCategory"></select><br><br>
-<button class="primary" onclick="addProduct()" id="addProductBtn"></button>
-<button class="secondary" onclick="logoutAdmin()" id="logoutBtn"></button>
-</div>
-
 <div class="cart">
-<h3 id="cartTitle"></h3>
+<h3 id="cartTitle">Cart</h3>
 <div id="cartContainer"></div>
 <h4 id="cartTotal"></h4>
-<button class="primary" onclick="goCheckout()" id="checkoutBtn"></button>
 </div>
-
 </main>
 
 <script>
-let currentLang="fi";
-let cart=JSON.parse(localStorage.getItem("cart"))||[];
-let products=JSON.parse(localStorage.getItem("products"))||[
-{id:1,name:"VALCIERI T-Shirt",price:29,category:"tshirt",created:Date.now()},
-{id:2,name:"VALCIERI Hoodie",price:79,category:"hoodie",created:Date.now()}
+
+let currentLang="en";
+let cart=[];
+let products=[
+{id:1,name:"VALCIERI T-Shirt",price:29,category:"tshirt"},
+{id:2,name:"VALCIERI Hoodie",price:79,category:"hoodie"},
+{id:3,name:"VALCIERI Shoes",price:120,category:"shoes"}
 ];
 
-const ADMIN_USERNAME="admin";
-const ADMIN_PASSWORD="valcieri2026";
-
 const translations={
-fi:{
-admin:"Ylläpito",
-cart:"Ostoskori",
-checkout:"Kassa",
-placeOrder:"Tee tilaus",
-orderConfirmed:"Tilaus vahvistettu ✅",
-thankYou:"Kiitos ostoksestasi VALCIERI.",
-backStore:"Takaisin kauppaan",
-adminLogin:"Ylläpidon kirjautuminen",
-username:"Käyttäjänimi",
-password:"Salasana",
-login:"Kirjaudu",
-wrongLogin:"Väärä kirjautuminen",
-adminDash:"Ylläpito Paneeli",
-productName:"Tuotteen nimi",
-price:"Hinta",
-addProduct:"Lisää tuote",
-logout:"Kirjaudu ulos",
-search:"Hae tuotteita...",
-sortNewest:"Uusimmat",
-sortLow:"Hinta ↑",
-sortHigh:"Hinta ↓",
-categories:{all:"Kaikki",tshirt:"T-Paidat",hoodie:"Hupparit"},
-add:"Lisää koriin"
-},
 en:{
-admin:"Admin",
 cart:"Cart",
-checkout:"Checkout",
-placeOrder:"Place Order",
-orderConfirmed:"Order Confirmed ✅",
-thankYou:"Thank you for shopping with VALCIERI.",
-backStore:"Back to Store",
-adminLogin:"Admin Login",
-username:"Username",
-password:"Password",
-login:"Login",
-wrongLogin:"Wrong login",
-adminDash:"Admin Dashboard",
-productName:"Product Name",
-price:"Price",
-addProduct:"Add Product",
-logout:"Logout",
-search:"Search products...",
-sortNewest:"Newest",
-sortLow:"Price ↑",
-sortHigh:"Price ↓",
-categories:{all:"All",tshirt:"T-Shirts",hoodie:"Hoodies"},
-add:"Add to Cart"
+categories:{all:"All",tshirt:"T-Shirts",hoodie:"Hoodies",shoes:"Shoes"},
+add:"Add to Cart",
+search:"Search"
+},
+fi:{
+cart:"Ostoskori",
+categories:{all:"Kaikki",tshirt:"T-Paidat",hoodie:"Hupparit",shoes:"Kengät"},
+add:"Lisää koriin",
+search:"Hae"
 }
 };
-
-function setLanguage(lang){
-currentLang=lang;
-applyTranslations();
-renderNav();
-renderProducts();
-renderCart();
-}
-
-function applyTranslations(){
-let t=translations[currentLang];
-document.getElementById("adminBtn").innerText=t.admin;
-document.getElementById("cartTitle").innerText=t.cart;
-document.getElementById("checkoutBtn").innerText=t.checkout;
-document.getElementById("checkoutTitle").innerText=t.checkout;
-document.getElementById("placeOrderBtn").innerText=t.placeOrder;
-document.getElementById("confirmTitle").innerText=t.orderConfirmed;
-document.getElementById("confirmText").innerText=t.thankYou;
-document.getElementById("backStoreBtn").innerText=t.backStore;
-document.getElementById("adminLoginTitle").innerText=t.adminLogin;
-document.getElementById("loginUser").placeholder=t.username;
-document.getElementById("loginPass").placeholder=t.password;
-document.getElementById("loginBtn").innerText=t.login;
-document.getElementById("adminDashTitle").innerText=t.adminDash;
-document.getElementById("adminName").placeholder=t.productName;
-document.getElementById("adminPrice").placeholder=t.price;
-document.getElementById("addProductBtn").innerText=t.addProduct;
-document.getElementById("logoutBtn").innerText=t.logout;
-}
 
 function renderNav(){
 let nav=document.getElementById("navLinks");
 nav.innerHTML="";
 for(let key in translations[currentLang].categories){
 let btn=document.createElement("button");
-btn.className="secondary";
 btn.innerText=translations[currentLang].categories[key];
 btn.onclick=()=>renderProducts(key);
 nav.appendChild(btn);
@@ -191,51 +274,30 @@ let container=document.getElementById("productsContainer");
 container.innerHTML=`
 <div class="controls">
 <input placeholder="${translations[currentLang].search}">
-<select>
-<option>${translations[currentLang].sortNewest}</option>
-<option>${translations[currentLang].sortLow}</option>
-<option>${translations[currentLang].sortHigh}</option>
-</select>
 </div>`;
+
 products.forEach(p=>{
+if(category==="all"||p.category===category){
 container.innerHTML+=`
 <div class="product">
 <h3>${p.name}</h3>
 <p>€${p.price}</p>
-<select><option>S</option><option>M</option><option>L</option><option>XL</option></select><br><br>
+<select><option>S</option><option>M</option><option>L</option><option>XL</option></select><br>
 <button class="primary">${translations[currentLang].add}</button>
 </div>`;
+}
 });
 }
 
-function renderCart(){
-let total=0;
-let c=document.getElementById("cartContainer");
-c.innerHTML="";
-cart.forEach(i=>{
-total+=i.price*i.qty;
-c.innerHTML+=`<div>${i.name} x${i.qty}</div>`;
-});
-document.getElementById("cartTotal").innerText="Total: €"+total.toFixed(2);
+function setLanguage(lang){
+currentLang=lang;
+document.getElementById("cartTitle").innerText=translations[lang].cart;
+renderNav();
+renderProducts();
 }
 
-function showPage(id){
-["storePage","checkoutPage","confirmationPage","adminPage","loginPage"]
-.forEach(p=>document.getElementById(p).classList.add("hidden"));
-document.getElementById(id).classList.remove("hidden");
-}
+setLanguage("en");
 
-function loginAdmin(){
-let u=document.getElementById("loginUser").value;
-let p=document.getElementById("loginPass").value;
-if(u===ADMIN_USERNAME&&p===ADMIN_PASSWORD){
-showPage("adminPage");
-}else alert(translations[currentLang].wrongLogin);
-}
-
-function checkAdminAccess(){showPage("loginPage");}
-
-setLanguage("fi");
 </script>
 
 </body>
