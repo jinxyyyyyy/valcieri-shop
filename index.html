@@ -8,80 +8,84 @@
 <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&intent=capture"></script>
 
 <style>
-  body {margin:0;font-family:Arial,sans-serif;background:#f4f4f4;text-align:center;}
-  header {padding:60px 20px 30px 20px;background:#eee;}
-  .logo {width:100%;max-width:520px;height:auto;display:block;margin:0 auto 20px auto;mix-blend-mode:multiply;filter:brightness(0.85);}
-  nav {background:black;color:gold;padding:15px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
-  .categories, .products {display:flex;flex-wrap:wrap;justify-content:center;gap:20px;padding:30px;}
-  .category, .product {background:white;width:180px;padding:20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1);cursor:pointer;}
-  button {background:black;color:gold;border:none;padding:10px;margin-top:10px;cursor:pointer;width:100%;}
-  footer {background:black;color:gold;padding:30px;margin-top:40px;}
-  .lang-btn {background:gold;color:black;padding:5px 10px;cursor:pointer;border:none;}
-  .cart-item {display:flex;justify-content:space-between;align-items:center;margin:5px 0;padding:5px;border-bottom:1px solid #ccc;}
-  .cart-controls button {padding:2px 6px;margin-left:2px;}
-  /* Modal Styles */
-  .modal {display:none;position:fixed;z-index:999;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.7);}
-  .modal-content {background:white;margin:15% auto;padding:20px;border-radius:10px;width:90%;max-width:400px;text-align:center;}
-  .modal button {margin:10px;width:40%;padding:10px;}
+body {margin:0;font-family:Arial,sans-serif;background:#f4f4f4;}
+header {padding:60px 20px 30px 220px;background:#eee;position:fixed;left:0;top:0;width:100%;z-index:1;}
+.logo {width:200px;height:auto;mix-blend-mode:multiply;filter:brightness(0.85);}
+.sidebar {position:fixed;left:0;top:0;width:200px;height:100%;background:black;color:gold;padding-top:100px;display:flex;flex-direction:column;gap:10px;}
+.sidebar button {background:gold;color:black;border:none;padding:10px;cursor:pointer;width:90%;margin:auto;text-align:left;}
+.sidebar button.active {background:#ffcc00;color:black;font-weight:bold;}
+.sidebar h3 {text-align:center;color:gold;margin-bottom:5px;}
+main {margin-left:200px;padding:120px 20px 20px 20px;}
+.products {display:flex;flex-wrap:wrap;justify-content:center;gap:20px;padding:10px;}
+.product {background:white;width:180px;padding:20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1);cursor:pointer;}
+.cart-item {display:flex;justify-content:space-between;align-items:center;margin:5px 0;padding:5px;border-bottom:1px solid #ccc;}
+.cart-controls button {padding:2px 6px;margin-left:2px;}
+button.action {width:100%;margin-top:5px;}
+footer {background:black;color:gold;padding:30px;margin-top:40px;text-align:center;}
+.modal {display:none;position:fixed;z-index:999;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,0.7);}
+.modal-content {background:white;margin:15% auto;padding:20px;border-radius:10px;width:90%;max-width:400px;text-align:center;}
+.modal button {margin:10px;width:40%;padding:10px;}
 </style>
 </head>
-
 <body>
+
+<div class="sidebar">
+  <h3>Categories</h3>
+  <button data-key="shoes" onclick="filterCategory('shoes', this)">Kenkä</button>
+  <button data-key="belts" onclick="filterCategory('belts', this)">Vyö</button>
+  <button data-key="glasses" onclick="filterCategory('glasses', this)">Lasit</button>
+  <button data-key="sweatshirts" onclick="filterCategory('sweatshirts', this)">Colleget</button>
+  <button data-key="hoodies" onclick="filterCategory('hoodies', this)">Hupparit</button>
+  <button data-key="joggers" onclick="filterCategory('joggers', this)">Lökärit</button>
+  <button data-key="tracksuits" onclick="filterCategory('tracksuits', this)">Tracksuitit</button>
+  <button data-key="tshirts" onclick="filterCategory('tshirts', this)">T-Paidat</button>
+  <button data-key="all" onclick="filterCategory('all', this)">Kaikki</button>
+
+  <h3>Language</h3>
+  <button id="btn-fi">FI</button>
+  <button id="btn-en">EN</button>
+</div>
+
 <header>
   <img src="logo.jpg" alt="VALCIERI logo" class="logo" />
-  <p id="worldwideText">Worldwide Shipping 🌍</p>
 </header>
 
-<nav>
-  🛒 <span id="totalLabel">Total:</span> <span id="currencySymbol"></span><span id="cartTotal">0.00</span>
-  <button id="btn-fi" class="lang-btn">FI</button>
-  <button id="btn-en" class="lang-btn">EN</button>
-</nav>
+<main>
+  <h2 id="productsTitle">Suositut tuotteet</h2>
+  <div class="products">
+    <div class="product" data-category="tshirts" data-name="T-Paita" data-price="29">
+      <h3>VALCIERI T-Paita</h3>
+      <button onclick="addToCart(this)">Lisää</button>
+    </div>
+    <div class="product" data-category="hoodies" data-name="Huppari" data-price="79">
+      <h3>VALCIERI Huppari</h3>
+      <button onclick="addToCart(this)">Lisää</button>
+    </div>
+    <div class="product" data-category="tracksuits" data-name="Tracksuit" data-price="149">
+      <h3>VALCIERI Tracksuit</h3>
+      <button onclick="addToCart(this)">Lisää</button>
+    </div>
+    <div class="product" data-category="belts" data-name="Vyö" data-price="35">
+      <h3>VALCIERI Vyö</h3>
+      <button onclick="addToCart(this)">Lisää</button>
+    </div>
+    <div class="product" data-category="glasses" data-name="Lasit" data-price="50">
+      <h3>VALCIERI Lasit</h3>
+      <button onclick="addToCart(this)">Lisää</button>
+    </div>
+    <div class="product" data-category="shoes" data-name="Kenkä" data-price="99">
+      <h3>VALCIERI Kenkä</h3>
+      <button onclick="addToCart(this)">Lisää</button>
+    </div>
+  </div>
 
-<h2 id="categoriesTitle">Categories</h2>
-<div class="categories">
-  <div class="category" data-key="shoes" onclick="filterCategory('shoes')">Kenkii</div>
-  <div class="category" data-key="belts" onclick="filterCategory('belts')">Vyöt</div>
-  <div class="category" data-key="glasses" onclick="filterCategory('glasses')">Lasit</div>
-  <div class="category" data-key="sweatshirts" onclick="filterCategory('sweatshirts')">Colleget</div>
-  <div class="category" data-key="hoodies" onclick="filterCategory('hoodies')">Hupparit</div>
-  <div class="category" data-key="joggers" onclick="filterCategory('joggers')">Lökärit</div>
-  <div class="category" data-key="tracksuits" onclick="filterCategory('tracksuits')">Tracksuitit</div>
-  <div class="category" data-key="tshirts" onclick="filterCategory('tshirts')">T-paidat</div>
-  <div class="category" data-key="all" onclick="filterCategory('all')">All</div>
-</div>
-
-<h2 id="productsTitle">Featured Products</h2>
-<div class="products">
-  <div class="product" data-category="tshirts" data-name="T-Shirt" data-price="29">
-    <h3>VALCIERI T-Shirt</h3>
-    <button onclick="addToCart(this)">Add</button>
-  </div>
-  <div class="product" data-category="hoodies" data-name="Hoodie" data-price="79">
-    <h3>VALCIERI Hoodie</h3>
-    <button onclick="addToCart(this)">Add</button>
-  </div>
-  <div class="product" data-category="tracksuits" data-name="Tracksuit" data-price="149">
-    <h3>VALCIERI Tracksuit</h3>
-    <button onclick="addToCart(this)">Add</button>
-  </div>
-  <div class="product" data-category="belts" data-name="Belt" data-price="35">
-    <h3>VALCIERI Belt</h3>
-    <button onclick="addToCart(this)">Add</button>
-  </div>
-  <div class="product" data-category="glasses" data-name="Glasses" data-price="50">
-    <h3>VALCIERI Glasses</h3>
-    <button onclick="addToCart(this)">Add</button>
-  </div>
-</div>
-
-<h2>Cart</h2>
-<div id="cartContainer"></div>
-
-<input type="checkbox" id="agreeTerms" />
-<span id="agreeLabel">I agree to Terms</span>
-<br /><br />
-<div id="paypal-button-container"></div>
+  <h2>Cart</h2>
+  <div id="cartContainer"></div>
+  <input type="checkbox" id="agreeTerms" />
+  <span id="agreeLabel">Hyväksyn ehdot</span>
+  <br /><br />
+  <div id="paypal-button-container"></div>
+</main>
 
 <footer>
   <p>Owner: YOUR_FULL_NAME</p>
@@ -89,7 +93,6 @@
   <p>© 2026 VALCIERI</p>
 </footer>
 
-<!-- Terms Modal -->
 <div id="termsModal" class="modal">
   <div class="modal-content">
     <h3>Terms & Conditions</h3>
@@ -100,15 +103,9 @@
 </div>
 
 <script>
-/* ===== Currency & Shipping ===== */
-let currency = "USD";
-let shippingCost = 10;
-document.getElementById("currencySymbol").innerText = {USD:"$",EUR:"€",GBP:"£",CAD:"$",AUD:"$"}[currency];
-
 /* ===== Cart ===== */
 let cart = JSON.parse(localStorage.getItem("valcieriCart")) || [];
 renderCart();
-
 function saveCart(){ localStorage.setItem("valcieriCart", JSON.stringify(cart)); }
 
 function addToCart(btn){
@@ -117,8 +114,7 @@ function addToCart(btn){
   const price = parseFloat(product.dataset.price);
   let existing = cart.find(i=>i.name===name);
   if(existing){ existing.qty++; } else { cart.push({name, price, qty:1}); }
-  renderCart();
-  saveCart();
+  renderCart(); saveCart();
 }
 
 function renderCart(){
@@ -129,7 +125,7 @@ function renderCart(){
     total += item.price*item.qty;
     const div = document.createElement("div");
     div.className="cart-item";
-    div.innerHTML = `<span>${item.name} - ${item.price} ${currency} x ${item.qty}</span>
+    div.innerHTML = `<span>${item.name} - ${item.price} x ${item.qty}</span>
       <span class="cart-controls">
         <button onclick="changeQty(${index},-1)">-</button>
         <button onclick="changeQty(${index},1)">+</button>
@@ -137,26 +133,18 @@ function renderCart(){
       </span>`;
     container.appendChild(div);
   });
-  total += cart.length>0?shippingCost:0;
+  total += cart.length>0?10:0; // shipping
   document.getElementById("cartTotal").innerText = total.toFixed(2);
 }
 
-function changeQty(index, delta){
-  cart[index].qty += delta;
-  if(cart[index].qty<1) cart.splice(index,1);
-  renderCart();
-  saveCart();
-}
+function changeQty(index, delta){ cart[index].qty+=delta; if(cart[index].qty<1) cart.splice(index,1); renderCart(); saveCart(); }
+function removeItem(index){ cart.splice(index,1); renderCart(); saveCart(); }
 
-function removeItem(index){
-  cart.splice(index,1);
-  renderCart();
-  saveCart();
-}
-
-/* ===== Category Filter ===== */
-function filterCategory(key){
+/* ===== Category Filter & Highlight ===== */
+function filterCategory(key, btn){
   document.querySelectorAll(".product").forEach(p=>p.style.display=(key==="all"||p.dataset.category===key)?"block":"none");
+  document.querySelectorAll(".sidebar button[data-key]").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
 }
 
 /* ===== PayPal Checkout ===== */
@@ -164,52 +152,36 @@ paypal.Buttons({
   createOrder: function(data, actions){
     if(cart.length===0){ alert("Cart empty"); return; }
     if(!document.getElementById("agreeTerms").checked){ alert("Agree to Terms"); return; }
-    let total = cart.reduce((a,b)=>a.price*b.qty,0) + shippingCost;
-    return actions.order.create({ purchase_units:[{amount:{currency_code:currency,value:total.toFixed(2)}}]});
+    let total = cart.reduce((a,b)=>a.price*b.qty,0) + 10;
+    return actions.order.create({ purchase_units:[{amount:{currency_code:"USD",value:total.toFixed(2)}}]});
   },
-  onApprove: function(data, actions){
-    return actions.order.capture().then(details=>{
-      alert("Payment successful!");
-      cart=[];
-      renderCart();
-      saveCart();
-    });
-  }
+  onApprove: function(data, actions){ return actions.order.capture().then(details=>{ alert("Payment successful!"); cart=[]; renderCart(); saveCart(); }); }
 }).render('#paypal-button-container');
 
 /* ===== Translation ===== */
 const translations = {
-  fi:{categories:"Kategoriat",products:"Suositut tuotteet",add:"Lisää",all:"Kaikki",agree:"Hyväksyn ehdot",worldwide:"Toimitamme maailmanlaajuisesti 🌍",shoes:"Kenkii",belts:"Vyöt",glasses:"Lasit",sweatshirts:"Colleget",hoodies:"Hupparit",joggers:"Lökärit",tracksuits:"Tracksuitit",tshirts:"T-paidat"},
-  en:{categories:"Categories",products:"Featured Products",add:"Add",all:"All",agree:"I agree to Terms",worldwide:"Worldwide Shipping 🌍",shoes:"Kenkii",belts:"Belts",glasses:"Glasses",sweatshirts:"Sweatshirts",hoodies:"Hoodies",joggers:"Joggers",tracksuits:"Tracksuits",tshirts:"T-Shirts"}
+  fi:{add:"Lisää",agree:"Hyväksyn ehdot",shoes:"Kenkä",belts:"Vyö",glasses:"Lasit",sweatshirts:"Colleget",hoodies:"Hupparit",joggers:"Lökärit",tracksuits:"Tracksuitit",tshirts:"T-Paidat",all:"Kaikki",products:"Suositut tuotteet"},
+  en:{add:"Add",agree:"I agree to Terms",shoes:"Shoes",belts:"Belts",glasses:"Glasses",sweatshirts:"Sweatshirts",hoodies:"Hoodies",joggers:"Joggers",tracksuits:"Tracksuits",tshirts:"T-Shirts",all:"All",products:"Featured Products"}
 };
-
 function setLanguage(lang){
-  document.getElementById("categoriesTitle").innerText=translations[lang].categories;
   document.getElementById("productsTitle").innerText=translations[lang].products;
-  document.getElementById("totalLabel").innerText=translations[lang].total || "Total:";
   document.getElementById("agreeLabel").innerText=translations[lang].agree;
-  document.getElementById("worldwideText").innerText=translations[lang].worldwide;
-  document.querySelectorAll(".category").forEach(cat=>{ const key=cat.dataset.key; if(translations[lang][key]) cat.innerText=translations[lang][key]; });
+  document.querySelectorAll(".sidebar button[data-key]").forEach(btn=>{
+    const key=btn.dataset.key; if(translations[lang][key]) btn.innerText=translations[lang][key];
+  });
   document.querySelectorAll(".product button").forEach(btn=>btn.innerText=translations[lang].add);
 }
 
 window.onload = ()=>{
-  setLanguage("en");
+  setLanguage("fi"); // default Finnish
   document.getElementById("btn-fi").addEventListener("click",()=>setLanguage("fi"));
   document.getElementById("btn-en").addEventListener("click",()=>setLanguage("en"));
-  // Show modal on page load
-  document.getElementById("termsModal").style.display = "block";
+  document.getElementById("termsModal").style.display="block";
 };
 
 /* ===== Modal Actions ===== */
-function agreeAll(){ 
-  document.getElementById("agreeTerms").checked = true; 
-  document.getElementById("termsModal").style.display = "none"; 
-}
-function doNotAgree(){ 
-  document.getElementById("agreeTerms").checked = false; 
-  document.getElementById("termsModal").style.display = "none"; 
-}
+function agreeAll(){ document.getElementById("agreeTerms").checked=true; document.getElementById("termsModal").style.display="none"; }
+function doNotAgree(){ document.getElementById("agreeTerms").checked=false; document.getElementById("termsModal").style.display="none"; }
 </script>
 </body>
 </html>
