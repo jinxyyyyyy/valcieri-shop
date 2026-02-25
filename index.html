@@ -5,120 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VALCIERI</title>
 
-<!-- Luxury Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-
 :root{
-  --black:#0a0a0a;
-  --soft-black:#111111;
+  --black:#0b0b0b;
   --gold:#c6a96b;
-  --soft-gold:#a88c52;
-  --text:#f2f2f2;
+  --text:#f5f5f5;
 }
-
-*{box-sizing:border-box}
 
 body{
   margin:0;
   background:var(--black);
   color:var(--text);
-  font-family:'Inter', sans-serif;
-  letter-spacing:0.5px;
+  font-family:'Inter',sans-serif;
 }
 
 /* HEADER */
 header{
   background:#000;
-  padding:60px 0 30px;
   text-align:center;
-  border-bottom:1px solid #1a1a1a;
+  padding:50px 0 25px;
+  border-bottom:1px solid #111;
   position:sticky;
   top:0;
   z-index:1000;
 }
 
-.logo-wrapper{
-  background:#000;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
 .logo-img{
   height:70px;
-  filter:brightness(1.1);
 }
 
 .top-bar{
   position:absolute;
   right:40px;
-  top:35px;
-}
-
-.top-bar button{
-  margin-left:10px;
-}
-
-/* NAVIGATION */
-nav{
-  display:flex;
-  justify-content:center;
-  gap:45px;
-  padding:25px 0;
-  background:#000;
-  font-family:'Playfair Display', serif;
-  text-transform:uppercase;
-  font-size:13px;
-  letter-spacing:3px;
-  border-top:1px solid #111;
-  border-bottom:1px solid #111;
-}
-
-nav button{
-  background:none;
-  border:none;
-  color:var(--text);
-  position:relative;
-  padding-bottom:6px;
-  transition:0.3s;
-}
-
-nav button:hover{
-  color:var(--gold);
-}
-
-nav button::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:0;
-  width:0%;
-  height:1px;
-  background:var(--gold);
-  transition:0.3s;
-}
-
-nav button:hover::after{
-  width:100%;
-}
-
-/* BUTTONS */
-.primary{
-  background:transparent;
-  border:1px solid var(--gold);
-  color:var(--gold);
-  padding:10px 18px;
-  font-size:12px;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  transition:0.3s;
-}
-
-.primary:hover{
-  background:var(--gold);
-  color:#000;
+  top:30px;
 }
 
 .secondary{
@@ -126,7 +47,7 @@ nav button:hover::after{
   border:1px solid #333;
   color:#aaa;
   padding:6px 12px;
-  font-size:12px;
+  cursor:pointer;
 }
 
 .secondary:hover{
@@ -134,12 +55,38 @@ nav button:hover::after{
   color:var(--gold);
 }
 
+/* NAV */
+nav{
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  padding:20px 0;
+  background:#000;
+  font-family:'Playfair Display',serif;
+  text-transform:uppercase;
+  font-size:12px;
+  letter-spacing:3px;
+  border-bottom:1px solid #111;
+}
+
+nav button{
+  background:none;
+  border:none;
+  color:var(--text);
+  cursor:pointer;
+  position:relative;
+}
+
+nav button:hover{
+  color:var(--gold);
+}
+
 /* PRODUCTS */
 .products{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:70px;
-  padding:100px 12%;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:60px;
+  padding:80px 12%;
 }
 
 .product{
@@ -147,33 +94,43 @@ nav button:hover::after{
 }
 
 .product h3{
-  font-family:'Playfair Display', serif;
+  font-family:'Playfair Display',serif;
   font-size:20px;
-  letter-spacing:1px;
-  margin-bottom:10px;
 }
 
 .product p{
   color:var(--gold);
-  margin-bottom:15px;
-  font-weight:300;
 }
 
 .product select{
   background:transparent;
   border:1px solid #333;
   color:var(--text);
-  padding:8px 12px;
-  margin-bottom:20px;
+  padding:6px;
+  margin-bottom:15px;
 }
 
-/* CONTROLS */
+.primary{
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  padding:8px 16px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  cursor:pointer;
+}
+
+.primary:hover{
+  background:var(--gold);
+  color:#000;
+}
+
 .controls{
   grid-column:1/-1;
   display:flex;
   justify-content:center;
-  gap:25px;
-  margin-bottom:50px;
+  gap:20px;
+  margin-bottom:40px;
 }
 
 .controls input,
@@ -181,54 +138,22 @@ nav button:hover::after{
   background:transparent;
   border:1px solid #333;
   color:var(--text);
-  padding:10px 15px;
+  padding:8px;
 }
 
-/* CART */
-.cart{
-  border-top:1px solid #1a1a1a;
-  padding:80px 12%;
-}
-
-.cart h3{
-  font-family:'Playfair Display', serif;
-  letter-spacing:3px;
-  margin-bottom:25px;
-}
-
-/* PAGES */
-.page{
-  padding:100px 12%;
-}
-
-.page h2{
-  font-family:'Playfair Display', serif;
-  font-size:30px;
-  letter-spacing:3px;
-}
-
-/* MOBILE */
-@media(max-width:768px){
-  nav{gap:20px;font-size:11px}
-  .products{padding:60px 8%;gap:50px}
-  .logo-img{height:50px}
-}
-
-.hidden{display:none}
-
+.page{padding:60px 12%;}
+.cart{border-top:1px solid #111;padding:60px 12%;}
+.hidden{display:none;}
 </style>
 </head>
 <body>
 
 <header>
-<div class="logo-wrapper">
-<img src="logo.jpg" class="logo-img" alt="VALCIERI Logo">
-</div>
-
+<img src="logo.jpg" class="logo-img">
 <div class="top-bar">
 <button onclick="setLanguage('fi')" class="secondary">FI</button>
 <button onclick="setLanguage('en')" class="secondary">EN</button>
-<button onclick="checkAdminAccess()" class="secondary">Admin</button>
+<button onclick="checkAdminAccess()" class="secondary" id="adminBtn">Admin</button>
 </div>
 </header>
 
@@ -241,23 +166,23 @@ nav button:hover::after{
 </div>
 
 <div id="checkoutPage" class="page hidden">
-<h2>Checkout</h2>
+<h2 id="checkoutTitle"></h2>
 <div id="checkoutItems"></div>
 <h3 id="checkoutTotal"></h3>
-<button class="primary" onclick="placeOrder()">Place Order</button>
+<button class="primary" onclick="placeOrder()" id="placeOrderBtn"></button>
 </div>
 
 <div id="confirmationPage" class="page hidden">
-<h2>Order Confirmed</h2>
-<p>Thank you for shopping with VALCIERI.</p>
-<button class="primary" onclick="showPage('storePage')">Back to Store</button>
+<h2 id="confirmTitle"></h2>
+<p id="confirmText"></p>
+<button class="primary" onclick="showPage('storePage')" id="backBtn"></button>
 </div>
 
 <div id="loginPage" class="page hidden">
-<h2>Admin Login</h2>
-<input id="loginUser" placeholder="Username"><br><br>
-<input id="loginPass" type="password" placeholder="Password"><br><br>
-<button class="primary" onclick="loginAdmin()">Login</button>
+<h2 id="loginTitle"></h2>
+<input id="loginUser"><br><br>
+<input id="loginPass" type="password"><br><br>
+<button class="primary" onclick="loginAdmin()" id="loginBtn"></button>
 </div>
 
 <div id="adminPage" class="page hidden">
@@ -279,56 +204,142 @@ nav button:hover::after{
 </div>
 
 <div class="cart">
-<h3>Cart</h3>
+<h3 id="cartTitle"></h3>
 <div id="cartContainer"></div>
 <h4 id="cartTotal"></h4>
-<button class="primary" onclick="goCheckout()">Checkout</button>
+<button class="primary" onclick="goCheckout()" id="checkoutBtn"></button>
 </div>
 
 </main>
 
 <script>
-/* YOUR ORIGINAL JS — UNCHANGED */
+
 let currentLang="fi";
-let cart=JSON.parse(localStorage.getItem("cart"))||[];
-let products=JSON.parse(localStorage.getItem("products"))||[
-{id:1,name:"VALCIERI T-Shirt",price:29,category:"tshirt",created:Date.now()},
-{id:2,name:"VALCIERI Hoodie",price:79,category:"hoodie",created:Date.now()}
+let cart=[];
+let products=[
+{id:1,name:"VALCIERI T-Shirt",price:29,category:"tshirt",created:1},
+{id:2,name:"VALCIERI Hoodie",price:79,category:"hoodie",created:2},
+{id:3,name:"VALCIERI Tracksuit",price:149,category:"tracksuit",created:3},
+{id:4,name:"VALCIERI Shoes",price:99,category:"shoes",created:4},
+{id:5,name:"VALCIERI Belt",price:45,category:"belts",created:5},
+{id:6,name:"VALCIERI Glasses",price:60,category:"glasses",created:6},
+{id:7,name:"VALCIERI Men's Fragrance",price:95,category:"fragrance",created:7},
+{id:8,name:"VALCIERI Jewelry",price:120,category:"jewelry",created:8}
 ];
 
 let selectedCategory="all";
-let maxPrice=300;
-let searchQuery="";
-let sortOption="newest";
+
+const translations={
+fi:{
+categories:{
+all:"Kaikki",tshirt:"T-Paidat",hoodie:"Hupparit",
+tracksuit:"Tracksuitit",shoes:"Kengät",
+belts:"Vyöt",glasses:"Lasit",
+fragrance:"Miesten tuoksut",jewelry:"Korut"
+},
+add:"Lisää koriin",
+cart:"Ostoskori",
+checkout:"Kassa",
+placeOrder:"Tee tilaus",
+confirmed:"Tilaus vahvistettu",
+thankyou:"Kiitos ostoksestasi VALCIERI.",
+back:"Takaisin kauppaan",
+login:"Ylläpitäjän kirjautuminen"
+},
+en:{
+categories:{
+all:"All",tshirt:"T-Shirts",hoodie:"Hoodies",
+tracksuit:"Tracksuits",shoes:"Shoes",
+belts:"Belts",glasses:"Glasses",
+fragrance:"Men's Fragrance",jewelry:"Jewelry"
+},
+add:"Add to Cart",
+cart:"Cart",
+checkout:"Checkout",
+placeOrder:"Place Order",
+confirmed:"Order Confirmed",
+thankyou:"Thank you for shopping with VALCIERI.",
+back:"Back to Store",
+login:"Admin Login"
+}
+};
 
 function renderNav(){
 let nav=document.getElementById("navLinks");
 nav.innerHTML="";
-["all","tshirt","hoodie"].forEach(key=>{
+for(let key in translations[currentLang].categories){
 let btn=document.createElement("button");
-btn.textContent=key.toUpperCase();
+btn.textContent=translations[currentLang].categories[key];
 btn.onclick=()=>{selectedCategory=key;renderProducts();}
 nav.appendChild(btn);
-});
+}
 }
 
 function renderProducts(){
 let container=document.getElementById("productsContainer");
 container.innerHTML="";
-products.forEach(p=>{
+products.filter(p=>selectedCategory==="all"||p.category===selectedCategory)
+.forEach(p=>{
 container.innerHTML+=`
 <div class="product">
 <h3>${p.name}</h3>
 <p>€${p.price}</p>
-<select><option>S</option><option>M</option><option>L</option><option>XL</option></select><br><br>
-<button class="primary">Add to Cart</button>
+<select id="size-${p.id}">
+<option>S</option><option>M</option><option>L</option><option>XL</option>
+</select><br>
+<button class="primary" onclick="addToCart(${p.id})">
+${translations[currentLang].add}
+</button>
 </div>`;
 });
 }
 
+function addToCart(id){
+let product=products.find(p=>p.id===id);
+let size=document.getElementById("size-"+id).value;
+cart.push({...product,size});
+renderCart();
+}
+
+function renderCart(){
+let c=document.getElementById("cartContainer");
+c.innerHTML="";
+let total=0;
+cart.forEach(i=>{
+total+=i.price;
+c.innerHTML+=`<div>${i.name} (${i.size})</div>`;
+});
+document.getElementById("cartTotal").innerText="€"+total;
+}
+
+function setLanguage(lang){
+currentLang=lang;
 renderNav();
 renderProducts();
-</script>
 
+document.getElementById("cartTitle").innerText=translations[lang].cart;
+document.getElementById("checkoutBtn").innerText=translations[lang].checkout;
+document.getElementById("placeOrderBtn").innerText=translations[lang].placeOrder;
+document.getElementById("confirmTitle").innerText=translations[lang].confirmed;
+document.getElementById("confirmText").innerText=translations[lang].thankyou;
+document.getElementById("backBtn").innerText=translations[lang].back;
+document.getElementById("loginTitle").innerText=translations[lang].login;
+}
+
+function goCheckout(){showPage("checkoutPage");}
+function placeOrder(){cart=[];renderCart();showPage("confirmationPage");}
+function showPage(id){
+["storePage","checkoutPage","confirmationPage","loginPage","adminPage"]
+.forEach(p=>document.getElementById(p).classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
+}
+
+function loginAdmin(){showPage("adminPage");}
+function logoutAdmin(){showPage("storePage");}
+function checkAdminAccess(){showPage("loginPage");}
+
+setLanguage("fi");
+
+</script>
 </body>
 </html>
