@@ -119,15 +119,15 @@ let shippingCost = detectShipping();
 <h2 id="categoriesTitle">Categories</h2>
 
 <div class="categories">
-  <div class="category" onclick="filterCategory('shoes')">Kenkii</div>
-  <div class="category" onclick="filterCategory('belts')">Vyöt</div>
-  <div class="category" onclick="filterCategory('glasses')">Lasit</div>
-  <div class="category" onclick="filterCategory('sweatshirts')">Colleget</div>
-  <div class="category" onclick="filterCategory('hoodies')">Hupparit</div>
-  <div class="category" onclick="filterCategory('joggers')">Lökärit</div>
-  <div class="category" onclick="filterCategory('tracksuits')">Tracksuitit</div>
-  <div class="category" onclick="filterCategory('tshirts')">T-paidat</div>
-  <div class="category" onclick="filterCategory('all')">All</div>
+  <div class="category" onclick="filterCategory('shoes')" data-key="shoes">Kenkii</div>
+  <div class="category" onclick="filterCategory('belts')" data-key="belts">Vyöt</div>
+  <div class="category" onclick="filterCategory('glasses')" data-key="glasses">Lasit</div>
+  <div class="category" onclick="filterCategory('sweatshirts')" data-key="sweatshirts">Colleget</div>
+  <div class="category" onclick="filterCategory('hoodies')" data-key="hoodies">Hupparit</div>
+  <div class="category" onclick="filterCategory('joggers')" data-key="joggers">Lökärit</div>
+  <div class="category" onclick="filterCategory('tracksuits')" data-key="tracksuits">Tracksuitit</div>
+  <div class="category" onclick="filterCategory('tshirts')" data-key="tshirts">T-paidat</div>
+  <div class="category" onclick="filterCategory('all')" data-key="all">All</div>
 </div>
 
 <h2 id="productsTitle">Featured Products</h2>
@@ -263,6 +263,15 @@ let shippingCost = detectShipping();
       agree: "Hyväksyn ehdot",
       worldwide: "Toimitamme maailmanlaajuisesti 🌍",
       add: "Lisää",
+      shoes: "Kenkii",
+      belts: "Vyöt",
+      glasses: "Lasit",
+      sweatshirts: "Colleget",
+      hoodies: "Hupparit",
+      joggers: "Lökärit",
+      tracksuits: "Tracksuitit",
+      tshirts: "T-paidat",
+      all: "Kaikki",
     },
     en: {
       categories: "Categories",
@@ -271,6 +280,15 @@ let shippingCost = detectShipping();
       agree: "I agree to Terms",
       worldwide: "Worldwide Shipping 🌍",
       add: "Add",
+      shoes: "Kenkii",
+      belts: "Belts",
+      glasses: "Glasses",
+      sweatshirts: "Sweatshirts",
+      hoodies: "Hoodies",
+      joggers: "Joggers",
+      tracksuits: "Tracksuits",
+      tshirts: "T-Shirts",
+      all: "All",
     },
   };
 
@@ -283,10 +301,20 @@ let shippingCost = detectShipping();
     document.getElementById("agreeLabel").innerText = translations[lang].agree;
     document.getElementById("worldwideText").innerText =
       translations[lang].worldwide;
+
+    // Update category names dynamically:
+    document.querySelectorAll(".category").forEach((cat) => {
+      const key = cat.getAttribute("data-key");
+      cat.innerText = translations[lang][key];
+    });
+
     document.querySelectorAll(".product button").forEach((btn) => {
       btn.innerText = translations[lang].add;
     });
   }
+
+  // Set default language on page load:
+  window.onload = () => setLanguage("en");
 </script>
 </body>
 </html>
