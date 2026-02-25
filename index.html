@@ -1,305 +1,318 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VALCIERI</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  color: #111;
+body{margin:0;font-family:Arial;background:#f5f5f5;color:#111}
+
+/* TOPBAR */
+.topbar{
+  background:black;color:gold;
+  display:flex;justify-content:space-between;
+  align-items:center;padding:15px 30px;
+  position:sticky;top:0;z-index:1000
+}
+.brand{font-weight:bold;letter-spacing:3px}
+.nav-links{display:flex;gap:15px}
+.nav-links button,.lang-switch button{
+  background:none;border:none;color:gold;font-weight:bold;cursor:pointer
 }
 
-/* TOP BAR */
-.topbar {
-  background: black;
-  color: gold;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 50px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.brand {
-  font-size: 22px;
-  letter-spacing: 3px;
-  font-weight: bold;
-}
-
-.nav-links button {
-  background: none;
-  border: none;
-  color: gold;
-  margin-left: 25px;
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 14px;
+/* MOBILE MENU */
+.menu-toggle{display:none;font-size:22px;cursor:pointer}
+@media(max-width:768px){
+  .nav-links{display:none;flex-direction:column;background:black;
+  position:absolute;top:60px;left:0;width:100%;padding:20px}
+  .nav-links.active{display:flex}
+  .menu-toggle{display:block}
 }
 
 /* HERO */
-.hero {
-  height: 70vh;
-  background: #ddd;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.hero img {
-  max-width: 300px;
-}
+.hero{height:40vh;background:#ddd;display:flex;justify-content:center;align-items:center}
+.hero img{max-width:250px}
 
 /* MAIN */
-main {
-  padding: 60px 50px;
-}
-
-h2 {
-  margin-bottom: 30px;
-  font-size: 28px;
-  letter-spacing: 2px;
-}
-
-/* PRODUCTS */
-.products {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 30px;
-}
-
-.product {
-  background: white;
-  border-radius: 12px;
-  padding: 25px;
-  text-align: center;
-  transition: 0.3s ease;
-}
-
-.product:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-.product h3 {
-  margin-bottom: 10px;
-}
-
-.product p {
-  font-weight: bold;
-  margin-bottom: 15px;
-}
-
-.product button {
-  background: black;
-  color: gold;
-  border: none;
-  padding: 12px;
-  width: 100%;
-  font-weight: bold;
-  border-radius: 6px;
-  cursor: pointer;
-}
+main{padding:40px}
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+.product{background:white;padding:20px;border-radius:10px;text-align:center}
+.product select{margin:10px 0;padding:5px}
+button{padding:8px 12px;border:none;border-radius:4px;cursor:pointer}
+.primary{background:black;color:gold;width:100%;font-weight:bold}
 
 /* CART */
-#cartSection {
-  margin-top: 80px;
-}
+.cart-item{display:flex;justify-content:space-between;margin-bottom:8px}
 
-.cart-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.cart-item button {
-  margin-left: 5px;
-  border: none;
-  background: #ddd;
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-}
+/* PAGES */
+.hidden{display:none}
+.page{max-width:600px;margin:auto}
 
 /* FOOTER */
-footer {
-  background: black;
-  color: gold;
-  text-align: center;
-  padding: 30px;
-  margin-top: 80px;
-}
-
-/* CART BADGE */
-#cartBadge {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: gold;
-  color: black;
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-weight: bold;
-}
+footer{background:black;color:gold;text-align:center;padding:20px;margin-top:40px}
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="brand">VALCIERI</div>
-  <div class="nav-links">
-    <button onclick="filterCategory('all')">ALL</button>
-    <button onclick="filterCategory('tshirt')">T-SHIRTS</button>
-    <button onclick="filterCategory('hoodie')">HOODIES</button>
-    <button onclick="filterCategory('tracksuit')">TRACKSUITS</button>
-    <button onclick="filterCategory('shoes')">SHOES</button>
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+  <div class="nav-links" id="navLinks"></div>
+  <div class="lang-switch">
+    <button onclick="setLanguage('fi')">FI</button>
+    <button onclick="setLanguage('en')">EN</button>
+    <button onclick="showAdmin()">Admin</button>
   </div>
 </div>
 
 <div class="hero">
-  <img src="logo.jpg" alt="VALCIERI">
+  <img src="logo.jpg">
 </div>
 
 <main>
 
-<h2>FEATURED PRODUCTS</h2>
+<!-- STORE -->
+<div id="storePage">
+  <h2 id="productsTitle"></h2>
+  <div class="products" id="productsContainer"></div>
 
-<div class="products">
-
-  <div class="product" data-category="tshirt" data-name="VALCIERI T-Shirt" data-price="29">
-    <h3>VALCIERI T-Shirt</h3>
-    <p>€29</p>
-    <button onclick="addToCart(this)">ADD TO CART</button>
-  </div>
-
-  <div class="product" data-category="hoodie" data-name="VALCIERI Hoodie" data-price="79">
-    <h3>VALCIERI Hoodie</h3>
-    <p>€79</p>
-    <button onclick="addToCart(this)">ADD TO CART</button>
-  </div>
-
-  <div class="product" data-category="tracksuit" data-name="VALCIERI Tracksuit" data-price="149">
-    <h3>VALCIERI Tracksuit</h3>
-    <p>€149</p>
-    <button onclick="addToCart(this)">ADD TO CART</button>
-  </div>
-
-  <div class="product" data-category="shoes" data-name="VALCIERI Shoes" data-price="99">
-    <h3>VALCIERI Shoes</h3>
-    <p>€99</p>
-    <button onclick="addToCart(this)">ADD TO CART</button>
-  </div>
-
+  <h2 id="cartTitle"></h2>
+  <div id="cartContainer"></div>
+  <p id="cartTotal"></p>
+  <button class="primary" onclick="goCheckout()" id="checkoutBtn"></button>
 </div>
 
-<section id="cartSection">
-  <h2>CART</h2>
-  <div id="cartContainer"></div>
-  <p id="cartTotal"><strong>Total: €0</strong></p>
-</section>
+<!-- CHECKOUT -->
+<div id="checkoutPage" class="hidden page">
+  <h2 id="checkoutTitle"></h2>
+  <input type="text" id="name">
+  <input type="email" id="email">
+  <input type="text" id="address">
+  <p id="checkoutTotal"></p>
+  <button class="primary" onclick="placeOrder()" id="placeOrderBtn"></button>
+  <button onclick="backStore()" id="backBtn"></button>
+</div>
+
+<!-- CONFIRMATION -->
+<div id="confirmationPage" class="hidden page">
+  <h2 id="confirmTitle"></h2>
+  <p id="confirmMessage"></p>
+  <button onclick="backStore()" class="primary">OK</button>
+</div>
+
+<!-- ADMIN -->
+<div id="adminPage" class="hidden page">
+  <h2>Admin Dashboard</h2>
+  <input type="text" id="adminName" placeholder="Product Name">
+  <input type="number" id="adminPrice" placeholder="Price">
+  <select id="adminCategory"></select>
+  <button onclick="addProduct()" class="primary">Add Product</button>
+</div>
 
 </main>
 
-<footer>
-  <p>Owner: YOUR NAME</p>
-  <p>Contact: your@email.com</p>
-  <p>© 2026 VALCIERI</p>
-</footer>
-
-<div id="cartBadge"></div>
+<footer>© 2026 VALCIERI</footer>
 
 <script>
-let cart = JSON.parse(localStorage.getItem("valcieriCart")) || [];
+let currentLang="fi";
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+let products=JSON.parse(localStorage.getItem("products"))||[
+{name:"VALCIERI T-Shirt",price:29,category:"tshirt"},
+{name:"VALCIERI Hoodie",price:79,category:"hoodie"},
+{name:"VALCIERI Tracksuit",price:149,category:"tracksuit"},
+{name:"VALCIERI Shoes",price:99,category:"shoes"},
+{name:"VALCIERI Belt",price:45,category:"belts"},
+{name:"VALCIERI Glasses",price:60,category:"glasses"},
+{name:"VALCIERI Men's Fragrance",price:95,category:"fragrance"},
+{name:"VALCIERI Jewelry",price:120,category:"jewelry"}
+];
 
-function saveCart() {
-  localStorage.setItem("valcieriCart", JSON.stringify(cart));
+const translations={
+fi:{
+featured:"Suositut tuotteet",
+cart:"Ostoskori",
+total:"Yhteensä",
+checkout:"Kassalle",
+checkoutTitle:"Kassa",
+place:"Tee tilaus",
+back:"Takaisin",
+confirm:"Tilaus vahvistettu",
+success:"Kiitos tilauksestasi!",
+categories:{
+all:"Kaikki",
+tshirt:"T-Paidat",
+hoodie:"Hupparit",
+tracksuit:"Tracksuitit",
+shoes:"Kengät",
+belts:"Vyöt",
+glasses:"Lasit",
+fragrance:"Miesten tuoksut",
+jewelry:"Korut"
+}
+},
+en:{
+featured:"Featured Products",
+cart:"Cart",
+total:"Total",
+checkout:"Checkout",
+checkoutTitle:"Checkout",
+place:"Place Order",
+back:"Back",
+confirm:"Order Confirmed",
+success:"Thank you for your order!",
+categories:{
+all:"All",
+tshirt:"T-Shirts",
+hoodie:"Hoodies",
+tracksuit:"Tracksuits",
+shoes:"Shoes",
+belts:"Belts",
+glasses:"Glasses",
+fragrance:"Men's Fragrance",
+jewelry:"Jewelry"
+}
+}
+};
+
+function toggleMenu(){
+document.getElementById("navLinks").classList.toggle("active");
 }
 
-function renderCart() {
-  const container = document.getElementById("cartContainer");
-  container.innerHTML = "";
-  let total = 0;
-
-  cart.forEach((item, index) => {
-    total += item.price * item.qty;
-
-    const div = document.createElement("div");
-    div.className = "cart-item";
-    div.innerHTML = `
-      <span>${item.name}</span>
-      <span>€${item.price} x ${item.qty}</span>
-      <span>
-        <button onclick="changeQty(${index}, -1)">-</button>
-        <button onclick="changeQty(${index}, 1)">+</button>
-        <button onclick="removeItem(${index})">🗑</button>
-      </span>
-    `;
-    container.appendChild(div);
-  });
-
-  if(cart.length === 0){
-    container.innerHTML = "<p>Cart is empty.</p>";
-  }
-
-  document.getElementById("cartTotal").innerHTML =
-    "<strong>Total: €" + total.toFixed(2) + "</strong>";
-
-  updateBadge();
-  saveCart();
+function renderNav(){
+let nav=document.getElementById("navLinks");
+nav.innerHTML="";
+for(let key in translations[currentLang].categories){
+let btn=document.createElement("button");
+btn.textContent=translations[currentLang].categories[key];
+btn.onclick=()=>renderProducts(key);
+nav.appendChild(btn);
+}
 }
 
-function addToCart(button) {
-  const product = button.parentElement;
-  const name = product.dataset.name;
-  const price = parseFloat(product.dataset.price);
-
-  const existing = cart.find(item => item.name === name);
-  if(existing){
-    existing.qty++;
-  } else {
-    cart.push({name, price, qty: 1});
-  }
-
-  renderCart();
+function renderProducts(cat="all"){
+let container=document.getElementById("productsContainer");
+container.innerHTML="";
+products.forEach(p=>{
+if(cat==="all"||p.category===cat){
+container.innerHTML+=`
+<div class="product">
+<h3>${p.name}</h3>
+<p>€${p.price}</p>
+<select id="size-${p.name}">
+<option>S</option><option>M</option><option>L</option><option>XL</option>
+</select>
+<button class="primary" onclick="addToCart('${p.name}',${p.price})">
+${translations[currentLang].checkout}
+</button>
+</div>`;
+}
+});
 }
 
-function changeQty(index, delta){
-  cart[index].qty += delta;
-  if(cart[index].qty <= 0){
-    cart.splice(index, 1);
-  }
-  renderCart();
-}
-
-function removeItem(index){
-  cart.splice(index, 1);
-  renderCart();
-}
-
-function filterCategory(category){
-  const products = document.querySelectorAll(".product");
-  products.forEach(p => {
-    if(category === "all" || p.dataset.category === category){
-      p.style.display = "block";
-    } else {
-      p.style.display = "none";
-    }
-  });
-}
-
-function updateBadge(){
-  const count = cart.reduce((acc, item) => acc + item.qty, 0);
-  document.getElementById("cartBadge").innerText =
-    count > 0 ? "Cart: " + count : "";
-}
-
+function addToCart(name,price){
+let size=document.getElementById("size-"+name)?.value||"-";
+let existing=cart.find(i=>i.name===name&&i.size===size);
+if(existing)existing.qty++;
+else cart.push({name,price,qty:1,size});
 renderCart();
+}
+
+function renderCart(){
+let c=document.getElementById("cartContainer");
+c.innerHTML="";
+let total=0;
+cart.forEach((item,i)=>{
+total+=item.price*item.qty;
+c.innerHTML+=`
+<div class="cart-item">
+<span>${item.name} (${item.size})</span>
+<span>${item.qty}</span>
+</div>`;
+});
+document.getElementById("cartTotal").innerHTML=
+`${translations[currentLang].total}: €${total.toFixed(2)}`;
+localStorage.setItem("cart",JSON.stringify(cart));
+}
+
+function goCheckout(){
+showPage("checkoutPage");
+updateCheckout();
+}
+
+function updateCheckout(){
+let total=cart.reduce((a,b)=>a+b.price*b.qty,0);
+document.getElementById("checkoutTotal").innerHTML=
+`${translations[currentLang].total}: €${total.toFixed(2)}`;
+}
+
+function placeOrder(){
+cart=[];
+localStorage.setItem("cart",JSON.stringify(cart));
+showPage("confirmationPage");
+}
+
+function backStore(){
+showPage("storePage");
+}
+
+function showPage(id){
+["storePage","checkoutPage","confirmationPage","adminPage"]
+.forEach(p=>document.getElementById(p).classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
+}
+
+function showAdmin(){showPage("adminPage");}
+
+function addProduct(){
+let name=document.getElementById("adminName").value;
+let price=parseFloat(document.getElementById("adminPrice").value);
+let category=document.getElementById("adminCategory").value;
+if(name&&price){
+products.push({name,price,category});
+localStorage.setItem("products",JSON.stringify(products));
+renderProducts();
+alert("Product Added");
+}
+}
+
+function populateAdminCategories(){
+let select=document.getElementById("adminCategory");
+for(let key in translations[currentLang].categories){
+if(key!=="all"){
+let opt=document.createElement("option");
+opt.value=key;
+opt.textContent=translations[currentLang].categories[key];
+select.appendChild(opt);
+}
+}
+}
+
+function setLanguage(lang){
+currentLang=lang;
+document.getElementById("productsTitle").innerText=
+translations[lang].featured;
+document.getElementById("cartTitle").innerText=
+translations[lang].cart;
+document.getElementById("checkoutBtn").innerText=
+translations[lang].checkout;
+document.getElementById("checkoutTitle").innerText=
+translations[lang].checkoutTitle;
+document.getElementById("placeOrderBtn").innerText=
+translations[lang].place;
+document.getElementById("backBtn").innerText=
+translations[lang].back;
+document.getElementById("confirmTitle").innerText=
+translations[lang].confirm;
+document.getElementById("confirmMessage").innerText=
+translations[lang].success;
+renderNav();
+renderProducts();
+renderCart();
+}
+
+populateAdminCategories();
+setLanguage("fi");
 </script>
 
 </body>
