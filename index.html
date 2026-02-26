@@ -14,6 +14,10 @@
   --text:#f5f5f5;
 }
 
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   background:var(--black);
@@ -21,36 +25,39 @@ body{
   font-family:'Inter',sans-serif;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
+
 header{
   background:#000;
-  text-align:center;
-  padding:40px 0 20px;
+  padding:20px 20px;
   border-bottom:1px solid #111;
   position:sticky;
   top:0;
   z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
 .logo{
   font-family:'Playfair Display',serif;
-  font-size:28px;
   letter-spacing:4px;
+  font-size:20px;
 }
 
 .top-bar{
-  position:absolute;
-  right:40px;
-  top:30px;
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
 .secondary{
   background:none;
   border:1px solid #333;
   color:#aaa;
-  padding:6px 12px;
+  padding:5px 10px;
+  font-size:12px;
   cursor:pointer;
-  margin-left:8px;
 }
 
 .secondary:hover{
@@ -60,98 +67,55 @@ header{
 
 /* CART ICON */
 .cart-icon{
-  display:inline-block;
-  margin-left:15px;
-  cursor:pointer;
   position:relative;
+  cursor:pointer;
   font-size:18px;
 }
 
 #cartCount{
+  position:absolute;
+  top:-8px;
+  right:-10px;
   background:var(--gold);
   color:#000;
-  font-size:11px;
+  font-size:10px;
   padding:2px 6px;
   border-radius:50%;
-  position:absolute;
-  top:-10px;
-  right:-12px;
 }
 
-/* HERO */
+/* ================= HERO ================= */
+
 .hero{
-  height:85vh;
-  background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)),
+  height:80vh;
+  background:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.8)),
   url('https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=2070') center/cover no-repeat;
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
-  border-bottom:1px solid #111;
+  padding:20px;
 }
 
 .hero-content h1{
   font-family:'Playfair Display',serif;
-  font-size:60px;
+  font-size:50px;
   letter-spacing:6px;
+  margin:0;
 }
 
 .hero-content p{
   color:var(--gold);
-  letter-spacing:3px;
-  margin:20px 0;
-}
-
-/* NAV */
-nav{
-  display:flex;
-  justify-content:center;
-  gap:40px;
-  padding:20px 0;
-  background:#000;
-  font-family:'Playfair Display',serif;
-  text-transform:uppercase;
-  font-size:12px;
-  letter-spacing:3px;
-  border-bottom:1px solid #111;
-}
-
-nav button{
-  background:none;
-  border:none;
-  color:var(--text);
-  cursor:pointer;
-}
-
-nav button:hover{
-  color:var(--gold);
-}
-
-/* PRODUCTS */
-.products{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:60px;
-  padding:80px 12%;
-}
-
-.product{
-  text-align:center;
-}
-
-.product h3{
-  font-family:'Playfair Display',serif;
-}
-
-.product p{
-  color:var(--gold);
+  letter-spacing:2px;
+  margin:15px 0;
+  font-size:14px;
 }
 
 .primary{
   background:transparent;
   border:1px solid var(--gold);
   color:var(--gold);
-  padding:8px 16px;
+  padding:10px 20px;
+  font-size:12px;
   text-transform:uppercase;
   letter-spacing:2px;
   cursor:pointer;
@@ -162,12 +126,68 @@ nav button:hover{
   color:#000;
 }
 
-/* CART DROPDOWN */
+/* ================= NAV ================= */
+
+nav{
+  display:flex;
+  gap:25px;
+  padding:15px 10px;
+  background:#000;
+  border-bottom:1px solid #111;
+  overflow-x:auto;
+  white-space:nowrap;
+  justify-content:center;
+}
+
+nav::-webkit-scrollbar{
+  display:none;
+}
+
+nav button{
+  background:none;
+  border:none;
+  color:var(--text);
+  font-size:12px;
+  letter-spacing:2px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+nav button:hover{
+  color:var(--gold);
+}
+
+/* ================= PRODUCTS ================= */
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:40px;
+  padding:60px 20px;
+}
+
+.product{
+  text-align:center;
+}
+
+.product h3{
+  font-family:'Playfair Display',serif;
+  font-size:16px;
+}
+
+.product p{
+  color:var(--gold);
+  margin:8px 0 15px;
+}
+
+/* ================= CART DROPDOWN ================= */
+
 .cart-dropdown{
   position:fixed;
-  top:90px;
-  right:30px;
-  width:320px;
+  top:70px;
+  right:15px;
+  width:90%;
+  max-width:350px;
   background:#111;
   border:1px solid #222;
   padding:20px;
@@ -179,7 +199,7 @@ nav button:hover{
   display:flex;
   justify-content:space-between;
   margin-bottom:10px;
-  font-size:14px;
+  font-size:13px;
 }
 
 .cart-actions button{
@@ -188,6 +208,22 @@ nav button:hover{
   color:var(--gold);
   cursor:pointer;
 }
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width:600px){
+
+.hero-content h1{
+  font-size:36px;
+}
+
+.products{
+  grid-template-columns:1fr;
+  gap:50px;
+}
+
+}
+
 </style>
 </head>
 <body>
@@ -206,11 +242,11 @@ nav button:hover{
 </header>
 
 <section class="hero">
-  <div class="hero-content">
-    <h1>VALCIERI</h1>
-    <p>Luxury Streetwear & Jewelry</p>
-    <button class="primary" onclick="scrollToProducts()">Shop Now</button>
-  </div>
+<div class="hero-content">
+<h1>VALCIERI</h1>
+<p>Luxury Streetwear & Jewelry</p>
+<button class="primary" onclick="scrollToProducts()">Shop Now</button>
+</div>
 </section>
 
 <nav id="navLinks"></nav>
@@ -218,16 +254,14 @@ nav button:hover{
 <div class="products" id="productsContainer"></div>
 
 <div class="cart-dropdown" id="cartDropdown">
-  <h4>Your Cart</h4>
-  <div id="cartDropdownItems"></div>
-  <hr>
-  <strong>Total: €<span id="cartDropdownTotal">0</span></strong><br><br>
-  <button class="primary">Checkout</button>
+<h4>Your Cart</h4>
+<div id="cartDropdownItems"></div>
+<hr>
+<strong>Total: €<span id="cartDropdownTotal">0</span></strong>
 </div>
 
 <script>
 
-let currentLang="en";
 let cart=[];
 
 let products=[
@@ -255,7 +289,6 @@ jewelry:"Jewelry"
 
 function renderNav(){
 let nav=document.getElementById("navLinks");
-nav.innerHTML="";
 for(let key in categories){
 let btn=document.createElement("button");
 btn.textContent=categories[key];
@@ -298,17 +331,13 @@ cart.forEach((item,index)=>{
 total+=item.price*item.quantity;
 dropdown.innerHTML+=`
 <div class="cart-item">
-<div>
-${item.name}<br>
-€${item.price} x ${item.quantity}
-</div>
+<div>${item.name}<br>€${item.price} x ${item.quantity}</div>
 <div class="cart-actions">
 <button onclick="changeQty(${index},-1)">−</button>
 <button onclick="changeQty(${index},1)">+</button>
 <button onclick="removeItem(${index})">✕</button>
 </div>
-</div>
-`;
+</div>`;
 });
 
 document.getElementById("cartDropdownTotal").innerText=total;
